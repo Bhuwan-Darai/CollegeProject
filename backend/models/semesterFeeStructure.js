@@ -4,38 +4,42 @@ const semesterFeeSchema = new mongoose.Schema({
   semester: {
     type: Number,
     required: true,
+    unique: true,
   },
   admissionFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   tutionFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   libraryFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   internalExamFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   boardExamFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   infrastructureDevelopmentFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   labFee: {
-    type: String,
+    type: Number,
     required: true,
   },
   identityCardFee: {
-    type: String,
+    type: Number,
     required: true,
+  },
+  totalFee: {
+    type: Number,
   },
 });
 

@@ -1,6 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const path = require("path");
-const fs = require("fs").promises;
 const User = require("../models/userSchema");
 const Admin = require("../models/adminSchema");
 const Accountant = require("../models/accountantSchema");
@@ -8,6 +6,10 @@ const generateToken = require("../utils/generateToken");
 const admin = require("../models/adminSchema");
 const payment = require("../models/payment");
 const SemesterFee = require("../models/semesterFeeStructure");
+const nodemailer = require("nodemailer");
+const Mailgen = require("mailgen");
+const { EMAIL, PASSWORD } = require("../config/email");
+
 // const io = require("socket.io");
 
 //  @desc   Auth user & get token
@@ -279,7 +281,7 @@ const deleteAccountant = async (req, res) => {
 };
 
 // @desc    Payment
-// @route   Post  api/processPayment
+// @route   POST api/processPayment
 // @access  Private
 const processPayments = asyncHandler(async (req, res) => {
   const {
@@ -292,31 +294,34 @@ const processPayments = asyncHandler(async (req, res) => {
     email,
     guardianContact,
   } = req.body;
-  const base64Image = req.file.base64Image;
 
   try {
-    // creating a new instance of the payment model
-    const newPayment = new payment({
-      name,
-      address,
-      semester,
-      parentsName,
-      amount,
-      paymentDate,
-      email,
-      photo: base64Image,
-      guardianContact,
-    });
+    const base64Image = req.file.base64Image;
 
-    // find the corresponding user and update its status to paid
+    // Find the corresponding user
     const user = await User.findOne({ email });
+    const feeStructure = await SemesterFee.findOne({ semester });
 
-    if (user) {
-      // If the user is found, update their status to paid
-      user.status = "paid";
+    if (user && feeStructure) {
+      // If the user is found, update their status to "pending Verification"
+      user.status = "pending Verification";
       await user.save();
 
-      // Save the payment after updating the user status
+      // Create a new payment instance
+      const newPayment = new payment({
+        name,
+        address,
+        semester,
+        parentsName,
+        amount,
+        paymentDate,
+        email,
+        photo: base64Image,
+        guardianContact,
+        feeStructure: feeStructure._id,
+      });
+
+      // Save the payment
       const savedPayment = await newPayment.save();
 
       return res.status(201).json({
@@ -325,13 +330,49 @@ const processPayments = asyncHandler(async (req, res) => {
         payment: savedPayment,
       });
     } else {
-      // If the user is not found, do not save the payment
-      return res.status(404).json({ error: "User not found" });
+      // If the user is not found, return an error
+      console.log("User or fee Structure not found not found");
+      return res
+        .status(404)
+        .json({ error: "User or fee Structure  not found" });
     }
   } catch (error) {
+    console.error("Error during payment processing:", error);
     return res
       .status(500)
       .json({ error: "Payment unsuccessful", details: error.message });
+  }
+});
+
+// @desc    Verify payments
+// @route   POST /verify/payment
+// @access  Private
+const verifyPayment = asyncHandler(async (req, res) => {
+  const { _id } = req.body;
+  console.log("id parameter from frontend", _id);
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { status: "paid" },
+      { new: true }, // Returns updated document
+    );
+    console.log(updatedUser);
+    // check if the user was found and status was updated
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json({ message: "User not found and cannot update status " });
+    }
+
+    // Send sucess response
+    res.status(200).json({
+      message: "Payemnt verified successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error verifying payment", errro: error.message });
   }
 });
 
@@ -340,7 +381,8 @@ const processPayments = asyncHandler(async (req, res) => {
 // @access  Private
 const getPayment = asyncHandler(async (req, res) => {
   try {
-    const paid = await payment.find();
+    // get all payments excep photo
+    const paid = await payment.find().select("-photo");
     res.json(paid);
   } catch (err) {
     console.log(err);
@@ -373,6 +415,36 @@ const getByPaymentId = asyncHandler(async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occured while retrieving payments " });
+  }
+});
+
+// @desc    Get payments based on semester
+// @route   GET /statements/:semester
+// @access  Private
+const getInvoice = asyncHandler(async (req, res) => {
+  const { semester } = req.params;
+
+  if (!semester) {
+    return res.status(400).json({ message: "Semester is required" });
+  }
+
+  try {
+    const invoice = await payment
+      .findOne({ semester }, { photo: 0 })
+      .populate("feeStructure");
+
+    if (!invoice) {
+      return res
+        .status(404)
+        .json({ message: "Invoice not found for the specified semester" });
+    }
+
+    res.status(200).json(invoice);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving the invoice" });
   }
 });
 
@@ -461,6 +533,16 @@ const createSemesterFee = asyncHandler(async (req, res) => {
       return res.json({ error: "Semester already exist" });
     }
 
+    const totalFee =
+      Number(admissionFee) +
+      Number(tutionFee) +
+      Number(libraryFee) +
+      Number(internalExamFee) +
+      Number(boardExamFee) +
+      Number(infrastructureDevelopmentFee) +
+      Number(labFee) +
+      Number(identityCardFee);
+
     // if not create Semester Fee
     const newSemesterFee = await SemesterFee.create({
       semester,
@@ -472,7 +554,9 @@ const createSemesterFee = asyncHandler(async (req, res) => {
       infrastructureDevelopmentFee,
       labFee,
       identityCardFee,
+      totalFee,
     });
+
     console.log(newSemesterFee); //! check whether smessterFee is created or not
     res.status(201).json({
       message: `${semester} fee created successfully`,
@@ -499,6 +583,7 @@ const feeStructure = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Fee structure not found " });
     }
     console.log(fee);
+
     return res.status(200).json({ fee });
   } catch (error) {
     console.error(error);
@@ -578,6 +663,63 @@ const deleteFeeStructure = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Send Mail
+// @route   POST /api/sendMail
+// @access  Private
+const sendMail = asyncHandler(async (req, res) => {
+  try {
+    const { userEmail, userName, dueDate } = req.body;
+
+    let config = {
+      service: "gmail",
+      auth: {
+        user: EMAIL, // School email id
+        pass: PASSWORD, // school email password
+      },
+    };
+
+    let transporter = await nodemailer.createTransport(config);
+
+    let mailGenerator = await new Mailgen({
+      theme: "default",
+      product: {
+        name: "Aaadikavi Bhanubhakta Campus",
+        link: "https://aadikavicampus.edu.np",
+      },
+    });
+
+    let emailContent = {
+      body: {
+        name: userName, // User's name
+        intro: `We would like to remind you that your payment is due on ${dueDate}.`,
+        outro: `Please ensure that your payment is made by the due date to avoid any late fees. Should you have any questions, please do not hesitate to contact us.`,
+      },
+    };
+
+    let emailBody = await mailGenerator.generate(emailContent);
+
+    let message = {
+      from: EMAIL,
+      to: userEmail,
+      subject: "Payment Due Notice",
+      html: emailBody,
+    };
+
+    transporter
+      .sendMail(message)
+      .then(() => {
+        res.status(200).json({
+          message: "Email sent successfully",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Error sending email", error: error });
+      });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending email", error: error });
+  }
+});
+
 module.exports = {
   authUser,
   logoutUser,
@@ -592,12 +734,15 @@ module.exports = {
   updateAccountant,
   deleteAccountant,
   processPayments,
+  verifyPayment,
   getPayment,
   getByPaymentId,
+  getInvoice,
   getNotification,
   readNotification,
   createSemesterFee,
   feeStructure,
   updateFeeStructure,
   deleteFeeStructure,
+  sendMail,
 };

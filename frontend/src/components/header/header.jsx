@@ -19,6 +19,7 @@ const Header = () => {
     "/invoice": "Invoice",
     "/logout": "Logout",
     "/feeStructure/CreateFee": "Create Fee Structure",
+    "/sendMail": " Mail",
   };
 
   //    now extract the dynamic value from the pathToBrandMap

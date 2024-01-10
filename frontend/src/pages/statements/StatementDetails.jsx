@@ -27,6 +27,10 @@ function StatementDetails() {
     ? `data:image/png;base64,${payments.photo}`
     : "no slip to display";
   console.log("Slip Url ", slipUrl);
+
+  const handleClick = () => {
+    axios.post(`/verify/payment`, id);
+  };
   return (
     <div>
       <Header />
@@ -68,7 +72,7 @@ function StatementDetails() {
         </Row>
       </Container>
       <div>
-        <Button>Verifiy</Button>
+        <Button onClick={handleClick}>Verifiy</Button>
       </div>
     </div>
   );

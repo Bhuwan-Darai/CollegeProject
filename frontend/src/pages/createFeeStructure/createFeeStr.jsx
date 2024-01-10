@@ -63,7 +63,7 @@ const CreateFeeStr = () => {
             <Form.Label>Admission Fee</Form.Label>
             <Form.Control
               name="admissionFee"
-              type="text"
+              type="Number"
               value={feeStructure.admissionFee}
               onChange={handleChange}
             />
@@ -74,7 +74,7 @@ const CreateFeeStr = () => {
             <Form.Label>Tution Fee</Form.Label>
             <Form.Control
               name="tutionFee"
-              type="text"
+              type="Number"
               value={feeStructure.tutionFee}
               onChange={handleChange}
             />
@@ -83,7 +83,7 @@ const CreateFeeStr = () => {
             <Form.Label>Library Fee</Form.Label>
             <Form.Control
               name="libraryFee"
-              type="text"
+              type="Number"
               value={feeStructure.libraryFee}
               onChange={handleChange}
             />
@@ -94,7 +94,7 @@ const CreateFeeStr = () => {
             <Form.Label>Internal Exam Fee</Form.Label>
             <Form.Control
               name="internalExamFee"
-              type="text"
+              type="Number"
               value={feeStructure.internalExamFee}
               onChange={handleChange}
             />
@@ -103,7 +103,7 @@ const CreateFeeStr = () => {
             <Form.Label>Board Exam Fee</Form.Label>
             <Form.Control
               name="boardExamFee"
-              type="text"
+              type="Number"
               value={feeStructure.boardExamFee}
               onChange={handleChange}
             />
@@ -114,7 +114,7 @@ const CreateFeeStr = () => {
             <Form.Label>Infrastructure Development Fee</Form.Label>
             <Form.Control
               name="infrastructureDevelopmentFee"
-              type="text"
+              type="Number"
               value={feeStructure.infrastructureDevelopmentFee}
               onChange={handleChange}
             />
@@ -123,7 +123,7 @@ const CreateFeeStr = () => {
             <Form.Label>Lab Fee</Form.Label>
             <Form.Control
               name="labFee"
-              type="text"
+              type="Number"
               value={feeStructure.labFee}
               onChange={handleChange}
             />
@@ -134,7 +134,7 @@ const CreateFeeStr = () => {
             <Form.Label>Identity Card Fee</Form.Label>
             <Form.Control
               name="identityCardFee"
-              type="text"
+              type="Number"
               value={feeStructure.identityCardFee}
               onChange={handleChange}
             />

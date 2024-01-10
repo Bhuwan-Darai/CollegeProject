@@ -39,9 +39,14 @@ const TableComponent = () => {
       .then((res) => {
         if (res.data.fee && res.data.fee.length > 0) {
           setFeeStructure(res.data.fee);
+        } else {
+          setFeeStructure([]);
         }
       })
-      .catch((res) => console.log(res.data.message));
+      .catch((res) => {
+        console.log(res.data.message);
+        setFeeStructure([]);
+      });
   }, [semester]);
 
   const createFee = () => {
@@ -137,6 +142,7 @@ const TableComponent = () => {
               <tr>
                 <th>Particulars</th>
                 <th>Amount (Rs.)</th>
+                <th>Total</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -157,7 +163,8 @@ const TableComponent = () => {
                   </td>
                   <td>
                     <ol style={{ listStyleType: "none" }}>
-                      <li>{fee.admissionFee}</li> <li>{fee.tutionFee}</li>
+                      <li>{fee.admissionFee}</li>
+                      <li>{fee.tutionFee}</li>
                       <li>{fee.libraryFee}</li>
                       <li>{fee.internalExamFee}</li>
                       <li>{fee.boardExamFee}</li>
@@ -166,6 +173,7 @@ const TableComponent = () => {
                       <li>{fee.identityCardFee}</li>
                     </ol>
                   </td>
+                  <td>Rs. {fee.totalFee}</td>
                   <td
                     style={{
                       display: "flex",
@@ -189,7 +197,7 @@ const TableComponent = () => {
                       </>
                     )}
                     {userRole.includes("Accountant") && (
-                      <>
+                      <div>
                         <Button
                           variant="outline-success"
                           onClick={() => updateFeeStr(fee._id)}
@@ -202,7 +210,7 @@ const TableComponent = () => {
                         >
                           Delete
                         </Button>
-                      </>
+                      </div>
                     )}
                   </td>
                 </tr>
@@ -210,7 +218,7 @@ const TableComponent = () => {
             </tbody>
           </Table>
         )}
-        {userRole.includes("Admin") && (
+        {/* {userRole.includes("Admin") && (
           <div
             style={{
               display: "flex",
@@ -220,7 +228,8 @@ const TableComponent = () => {
           >
             <Button onClick={() => createFee()}>Create Fee Structure</Button>
           </div>
-        )}
+        )} */}
+
         {userRole.includes("Accountant") && (
           <div
             style={{

@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema(
     roll: {
       type: Number,
       required: true,
+      unique: true,
     },
     semester: {
       type: String,
@@ -17,6 +18,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     guardianName: {
       type: String,
@@ -25,6 +27,7 @@ const userSchema = mongoose.Schema(
     contact: {
       type: Number,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -45,7 +48,7 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: "pending",
+      default: "unpaid",
     },
   },
   {

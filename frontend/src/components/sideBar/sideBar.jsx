@@ -62,6 +62,12 @@ const Sidebar = ({ children }) => {
       allowedRoles: ["Accountant", "User"],
     },
     {
+      path: "/sendMail",
+      name: "Mail",
+      icon: <BsIcons.BsEnvelope />,
+      allowedRoles: ["Accountant"],
+    },
+    {
       path: "/logout",
       name: "Logout",
       icon: <FaIcons.FaPowerOff />,

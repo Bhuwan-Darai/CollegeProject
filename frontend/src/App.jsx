@@ -17,6 +17,7 @@ import Statements from "./pages/statements/statements";
 import CreateFeeStructure from "./pages/createFeeStructure/createFeeStr";
 import StatementDetails from "./pages/statements/StatementDetails";
 import Invoice from "./pages/invoicePage/invoice";
+import SendMail from "./pages/sendMail/sendMail";
 function App() {
   return (
     <Router>
@@ -117,6 +118,14 @@ function App() {
           element={
             <Sidebar>
               <CreateFeeStructure />
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/sendMail"
+          element={
+            <Sidebar>
+              <SendMail />
             </Sidebar>
           }
         />

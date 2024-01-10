@@ -32,9 +32,15 @@ const paymentSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   guardianContact: {
     type: Number,
+    required: true,
+  },
+  feeStructure: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "SemesterFee",
     required: true,
   },
 });
