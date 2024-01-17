@@ -18,6 +18,7 @@ import CreateFeeStructure from "./pages/createFeeStructure/createFeeStr";
 import StatementDetails from "./pages/statements/StatementDetails";
 import Invoice from "./pages/invoicePage/invoice";
 import SendMail from "./pages/sendMail/sendMail";
+import Profile from "./pages/profile/profile";
 function App() {
   return (
     <Router>
@@ -126,6 +127,14 @@ function App() {
           element={
             <Sidebar>
               <SendMail />
+            </Sidebar>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Sidebar>
+              <Profile />
             </Sidebar>
           }
         />

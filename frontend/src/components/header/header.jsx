@@ -1,9 +1,10 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import * as BsIcons from "react-icons/bs";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   // object for path to brand mappings
@@ -32,6 +33,12 @@ const Header = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const profile = () => {
+    navigate("/profile");
+  };
+  const logout = () => {
+    navigate("/");
+  };
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
@@ -46,8 +53,8 @@ const Header = () => {
                 title={<BsIcons.BsFillPersonFill />}
                 id="dropdown-menu"
               >
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-                <NavDropdown.Item>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={profile}>Profile</NavDropdown.Item>
+                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

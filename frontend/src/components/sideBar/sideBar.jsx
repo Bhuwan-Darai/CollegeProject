@@ -59,7 +59,7 @@ const Sidebar = ({ children }) => {
       path: "/invoice",
       name: "Invoice",
       icon: <IoIcons.IoMdNotifications />,
-      allowedRoles: ["Accountant", "User"],
+      allowedRoles: ["User"],
     },
     {
       path: "/sendMail",

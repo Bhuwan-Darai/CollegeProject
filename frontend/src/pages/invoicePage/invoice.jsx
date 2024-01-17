@@ -1,12 +1,60 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, forwardRef } from "react";
 import Header from "../../components/header/header";
 import InvoiceTable from "../../components/invoice/InvoiceTable";
 import { Container, Col, Row, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
+import { useReactToPrint } from "react-to-print";
+
+// eslint-disable-next-line react/display-name
+const InvoiceContent = forwardRef(({ invoice, getMonthName }, ref) => (
+  <div>
+    <div ref={ref}>
+      <div>
+        <div style={{ textAlign: "center", backgroundColor: "pink" }}>
+          <h3>AADIKAVI BHANUBHAKTA CAMPUS</h3>
+        </div>
+        <div
+          style={{
+            border: "2px solid blue",
+            borderRadius: "15px",
+            backgroundColor: "white",
+          }}
+        >
+          <Row>
+            <Col md={6}>
+              <p>Month Name: {getMonthName(invoice.paymentDate)}</p>
+              <p>Student Name: {invoice.name}</p>
+              <p>Regd. No.: </p>
+              <p>Faculty: BICTE</p>
+              <p>Batch: </p>
+            </Col>
+            <Col md={6}>
+              <p>Bill No.: {invoice._id}</p>
+              <p>Date: {new Date(invoice.paymentDate).toLocaleDateString()}</p>
+              <p>Roll No. :</p>
+              <p>Level: Bachelor</p>
+              <p>Semester: {invoice.semester}</p>
+            </Col>
+          </Row>
+        </div>
+      </div>
+      <div
+        style={{
+          border: "2px solid blue",
+          marginTop: "5px",
+          backgroundColor: "white",
+        }}
+      >
+        <InvoiceTable invoice={invoice} />
+      </div>
+    </div>
+  </div>
+));
 
 const Invoice = () => {
   const [semester, setSemester] = useState("defaultSemester");
   const [invoice, setInvoice] = useState(null);
+  const componentRef = useRef();
 
   useEffect(() => {
     if (semester !== "defaultSemester") {
@@ -28,7 +76,11 @@ const Invoice = () => {
     return date.toLocaleString("default", { month: "long" });
   };
 
-  console.log(invoice);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Invoice",
+  });
+
   return (
     <>
       <Header />
@@ -57,40 +109,17 @@ const Invoice = () => {
           </Col>
         </Row>
 
-        <div style={{ textAlign: "center" }}>
-          <h3>AADIKAVI BHANUBHAKTA CAMPUS</h3>
-        </div>
-
         {invoice && (
-          <div
-            style={{
-              border: "2px solid blue",
-              borderRadius: "15px",
-              backgroundColor: "white",
-            }}
-          >
-            <Row>
-              <Col md={6}>
-                <p> Month Name :{getMonthName(invoice.paymentDate)} </p>
-                <p>Student Name : {invoice.name} </p>
-                <p>Regd. No. : </p>
-                <p>Faculty : BICTE </p>
-                <p>Batch : </p>
-              </Col>
-              <Col md={6}>
-                <p>Bill No. : {invoice._id} </p>
-                <p>
-                  Date : {new Date(invoice.paymentDate).toLocaleDateString()}
-                </p>
-                <p>Roll No. : </p>
-                <p>Level : Bachelor </p>
-                <p>Semester : {invoice.semester} </p>
-              </Col>
-            </Row>
-          </div>
+          <InvoiceContent
+            ref={componentRef}
+            invoice={invoice}
+            getMonthName={getMonthName}
+          />
         )}
 
-        {invoice && <InvoiceTable invoice={invoice} />}
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <button onClick={handlePrint}>Generate PDF</button>
+        </div>
       </Container>
     </>
   );
