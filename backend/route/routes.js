@@ -7,7 +7,7 @@ const {
   getUserProfile,
   updateUserProile,
   registerStudent,
-  students,
+  getStudentsBySemester,
   updateStudent,
   deleteStudent,
   registerAccountant,
@@ -38,9 +38,9 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProile);
 router.post("/registerStudent", registerStudent);
-router.get("/getStudents", students);
+router.get("/getStudents/:semester", getStudentsBySemester);
 router.put("/updateStudent/:id", updateStudent);
-router.route("/student/:id").get(protect, students).put(protect, updateStudent);
+router.route("/student/:id").put(protect, updateStudent);
 router.delete("/deleteStudent/:id", deleteStudent);
 router.post("/registerAccountant", registerAccountant);
 router.get("/getAccountant", getAccountant);

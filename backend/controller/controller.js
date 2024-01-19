@@ -128,20 +128,39 @@ const registerStudent = asyncHandler(async (req, res) => {
   }
 });
 
-//  @desc       Get student
-//  @route      GET  /api/student
+//  @desc       Get students by semester
+//  @route      GET  /api/student/:semester
 //  @access     Private
-const students = asyncHandler(async (req, res) => {
+const getStudentsBySemester = async (req, res) => {
   try {
-    const items = await User.find();
-    res.json(items);
+    const { semester } = req.params;
+
+    // Validate if semester is provided
+    if (!semester) {
+      return res
+        .status(400)
+        .json({ message: "Semester parameter is required." });
+    }
+
+    // Find students by semester
+    const students = await User.find({ semester });
+
+    // Check if any students are found
+    if (students.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No students found for this semester." });
+    }
+
+    // Return the students
+    return res.status(200).json(students);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res
       .status(500)
-      .json({ error: "An error occureed while retrieving the students." });
+      .json({ error: "An error occurred while retrieving the students." });
   }
-});
+};
 
 // @desc    Update student
 // @route   Put   /api/student
@@ -726,7 +745,7 @@ module.exports = {
   getUserProfile,
   updateUserProile,
   registerStudent,
-  students,
+  getStudentsBySemester,
   updateStudent,
   deleteStudent,
   registerAccountant,

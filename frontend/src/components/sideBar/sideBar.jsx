@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
@@ -15,8 +15,21 @@ const Sidebar = ({ children }) => {
   const { userRole } = useUserContext();
   console.log("User role in mycomponent", userRole);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+
   const toggle = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth > 768); //? Toggle side bar based on screen size
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const menuItem = [
     {
       path: "/dashboard",
