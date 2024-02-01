@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import axios from "axios";
-import "../../App.css";
+import "./createAccountant.css";
+import Header from "../../components/header/header";
 
 function CreateAccountant() {
   //useNavigate to switch between pages
@@ -46,8 +47,10 @@ function CreateAccountant() {
 
   return (
     <div className="formContainer ">
-      <h2 className="heading">Create Accountant </h2>
-      <Form className="studentForm">
+      <div>
+        <Header />
+      </div>
+      <Form className="create-accountant-form">
         <Form.Group>
           <h1>Fill this form</h1>
 

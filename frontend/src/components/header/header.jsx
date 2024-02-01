@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import * as BsIcons from "react-icons/bs";
 import { useState } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -12,13 +12,14 @@ const Header = () => {
     "/dashboard": "Dashboard",
     "/students": "Students",
     "/CreateStudent": "Create Student",
-    "/account": "Accountant",
+    "/accountant": "Accountant",
+    "/CreateAccountant": "Create Accountant",
     "/payment": "Payment",
     "/feeStructure": "Fee Structure ",
     "/statements": "Statements",
-    "/statements/seeDetails": "Statements",
+    "/statements/statementDetails": "Statements",
     "/invoice": "Invoice",
-    "/logout": "Logout",
+    "/profile": "Profile",
     "/feeStructure/CreateFee": "Create Fee Structure",
     "/sendMail": " Mail",
   };
@@ -41,16 +42,22 @@ const Header = () => {
   };
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+      <Navbar
+        expand="md"
+        collapseOnSelect
+        style={{ borderRadius: "5px", background: "#224952" }}
+      >
         <Container>
-          <Navbar.Brand href="/">{dynamicPath}</Navbar.Brand>
+          <Navbar.Brand href="/" style={{ color: "white" }}>
+            {dynamicPath}
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
-            <Nav style={{ marginLeft: "90%" }}>
+            <Nav style={{ marginLeft: "93%" }}>
               <NavDropdown
                 show={showDropdown}
                 onToggle={toggleDropdown}
-                title={<BsIcons.BsFillPersonFill />}
+                title={<BsIcons.BsFillPersonFill style={{ color: "white" }} />}
                 id="dropdown-menu"
               >
                 <NavDropdown.Item onClick={profile}>Profile</NavDropdown.Item>

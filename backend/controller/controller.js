@@ -9,8 +9,7 @@ const SemesterFee = require("../models/semesterFeeStructure");
 const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
 const { EMAIL, PASSWORD } = require("../config/email");
-
-// const io = require("socket.io");
+const mongoose = require("mongoose");
 
 //  @desc   Auth user & get token
 //  @route  POST /auth
@@ -174,9 +173,12 @@ const updateStudent = asyncHandler(async (req, res) => {
       {
         name: req.body.name,
         roll: req.body.roll,
+        semester: req.body.semester,
         email: req.body.email,
         guardianName: req.body.guardianName,
         contact: req.body.contact,
+        password: req.body.password,
+        gender: req.body.gender,
       },
     );
     console.log(update);
@@ -367,31 +369,42 @@ const processPayments = asyncHandler(async (req, res) => {
 // @route   POST /verify/payment
 // @access  Private
 const verifyPayment = asyncHandler(async (req, res) => {
-  const { _id } = req.body;
-  console.log("id parameter from frontend", _id);
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      { status: "paid" },
-      { new: true }, // Returns updated document
-    );
-    console.log(updatedUser);
-    // check if the user was found and status was updated
-    if (!updatedUser) {
-      return res
-        .status(404)
-        .json({ message: "User not found and cannot update status " });
+    const { id, email } = req.body;
+    console.log(id, email);
+
+    const paymentObject = await payment.findById(id);
+
+    if (!paymentObject) {
+      return res.status(404).json({ message: "No payment found" });
     }
 
-    // Send sucess response
+    // Get user
+    const user = await User.findOne({ email });
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: "No user found" });
+    }
+
+    // Update user payment status
+    user.status = "paid";
+    await user.save();
+
+    // Update payment status
+    // paymentObject.status = "paid";
+    // await paymentObject.save();
+
+    // Send success response
     res.status(200).json({
-      message: "Payemnt verified successfully",
-      user: updatedUser,
+      message: "Payment verified successfully",
+      user,
+      payment: paymentObject,
     });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error verifying payment", errro: error.message });
+      .json({ message: "Error verifying payment", error: error.message });
   }
 });
 
@@ -481,12 +494,47 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @desc    Get user profile
 // @route   GET /users/profile
 // @access  Private
+// @desc    Get user profile
+// @route   GET /users/profile
+// @access  Private
+// const getUserProfile = asyncHandler(async (req, res) => {
+//   // Get user from session
+//   const user = req.session.user;
+//   console.log(user);
+
+//   if (!user) {
+//     res.status(401);
+//     throw new Error("User not found");
+//   }
+
+//   try {
+//     // Fetch user from DB
+//     const dbUser = await User.findById(user._id);
+
+//     if (!dbUser) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     // Remove password hash for security
+//     dbUser.password = undefined;
+
+//     res.json(dbUser);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
 const getUserProfile = asyncHandler(async (req, res) => {
+  console.log(req.user);
   if (req.user) {
     res.json({
       _id: req.user._id,
       name: req.user.name,
       email: req.user.email,
+      contact: req.user.contact,
+      gender: req.user.gender,
+      role: req.user.role,
+      status: req.user.status,
     });
   } else {
     res.status(404);
@@ -499,34 +547,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProile = asyncHandler(async (req, res) => {
   res.json({ mesage: "update profile" });
-});
-
-// @desc    Get notification
-// @route   GET /users/Notification
-// @access  Private
-const getNotification = asyncHandler(async (req, res) => {
-  try {
-    const notifications = await Notification.findById({ _id: req.params._id });
-    res.status(200).json(notifications);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// @desc    Mark notification as read
-// @route   PUT /users/notifications/:id/mark-as-read
-// @access  Private
-const readNotification = asyncHandler(async (req, res) => {
-  try {
-    const notification = await Notification.findByIdAndUpdate(
-      req.params._id,
-      { read: true },
-      { new: true },
-    );
-    res.status(200).json(notification);
-  } catch (error) {
-    res.status(500).json({ error: "Internal server Error " });
-  }
 });
 
 // @desc    create a new semester fee
@@ -629,7 +649,30 @@ const updateFeeStructure = asyncHandler(async (req, res) => {
       labFee,
       identityCardFee,
     } = req.body;
+
     console.log(req.body);
+
+    // Parse fields as numbers using the unary plus operator otherwise they will be concatenated
+    const numericAdmissionFee = +admissionFee;
+    const numericTutionFee = +tutionFee;
+    const numericLibraryFee = +libraryFee;
+    const numericInternalExamFee = +internalExamFee;
+    const numericBoardExamFee = +boardExamFee;
+    const numericInfrastructureDevelopmentFee = +infrastructureDevelopmentFee;
+    const numericLabFee = +labFee;
+    const numericIdentityCardFee = +identityCardFee;
+
+    // Calculate the total fee based on the received data
+    const totalFee =
+      numericAdmissionFee +
+      numericTutionFee +
+      numericLibraryFee +
+      numericInternalExamFee +
+      numericBoardExamFee +
+      numericInfrastructureDevelopmentFee +
+      numericLabFee +
+      numericIdentityCardFee;
+
     const update = await SemesterFee.findByIdAndUpdate(
       { _id: req.params.id },
       {
@@ -642,6 +685,7 @@ const updateFeeStructure = asyncHandler(async (req, res) => {
         infrastructureDevelopmentFee,
         labFee,
         identityCardFee,
+        totalFee,
       },
       { new: true }, // Return the updated docment
     );
@@ -757,8 +801,6 @@ module.exports = {
   getPayment,
   getByPaymentId,
   getInvoice,
-  getNotification,
-  readNotification,
   createSemesterFee,
   feeStructure,
   updateFeeStructure,

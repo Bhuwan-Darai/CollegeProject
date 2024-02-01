@@ -1,0 +1,8 @@
+.create-student-form {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  box-shadow: 0 2px 4px;
+  width: 80%;
+  margin-left: 140px;
+}

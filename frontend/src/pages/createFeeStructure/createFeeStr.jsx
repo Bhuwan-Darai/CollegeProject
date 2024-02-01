@@ -1,3 +1,4 @@
+import "./createFeeStr.css";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import Header from "../../components/header/header";
 import { useState } from "react";
@@ -48,7 +49,8 @@ const CreateFeeStr = () => {
   return (
     <div>
       <Header />
-      <Form>
+      <h3 style={{ marginLeft:"140px", marginTop:"20px"}}>Fill this form</h3>
+      <Form className="create-feestructure-form">
         <Row>
           <Col md={6}>
             <Form.Label>Semester</Form.Label>
@@ -141,8 +143,8 @@ const CreateFeeStr = () => {
           </Col>
         </Row>
       </Form>
-      <div>
-        <Button variant="outline-dark" onClick={handleClick}>
+      <div className="feestr-create-btn">
+        <Button variant="outline-primary" onClick={handleClick}>
           Create
         </Button>
       </div>

@@ -3,13 +3,15 @@ import Header from "../../components/header/header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
+import { IoCalendarNumber } from "react-icons/io5";
+
 // import moment from "moment";
 // import { Bar } from "react-chartjs-2";
 
 const Dashboard = () => {
   const handleMyProfileClick = () => {
     //This will navigate to the MYProfile page.
-    window.location.href = "/Profile";
+    window.location.href = "/profile";
   };
   const handleFeeStructureClick = () => {
     // This will navigate to the Fee Structure page.
@@ -54,18 +56,21 @@ const Dashboard = () => {
       {/*...............Rest of the content...........*/}
       <div>
         <div
-          className="container d-flex justify-content-center"
-          style={{ marginTop: "20px" }}
+          className="container"
+          style={{ marginTop: "40px", marginLeft: "130px" }}
         >
           <div className="row ">
-            <div className="col-md-4 d-flex justify-content-around">
+            <div className="col-md-4">
               <button
-                className=" p-4 rounded fs-4 text-white "
                 style={{
-                  backgroundColor: "#14A888",
+                  backgroundColor: "green",
+                  color: "white",
+                  fontSize: "20px",
+                  padding: "30px 30px",
                   marginRight: "30px",
+                  borderRadius: "5px",
                   borderStyle: "none",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
                 }}
                 onClick={handleMyProfileClick}
               >
@@ -73,18 +78,40 @@ const Dashboard = () => {
                 My Profile
               </button>
             </div>
-            <div className="col-md-4 d-flex justify-content-around">
+            <div className="col-md-4 ">
               <button
-                className="p-4 rounded fs-4 text-white "
                 style={{
-                  backgroundColor: "#0091E6",
+                  backgroundColor: "blue",
+                  color: "white",
+                  fontSize: "20px",
+                  padding: "30px 30px",
+                  marginRight: "30px",
+                  borderRadius: "5px",
                   borderStyle: "none",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
                 }}
                 onClick={handleFeeStructureClick}
               >
                 <AiIcons.AiOutlineTable style={{ marginRight: "5px" }} />
                 Fee Structure
+              </button>
+            </div>
+            <div className="col-md-4 ">
+              <button
+                style={{
+                  backgroundColor: "gray",
+                  color: "white",
+                  fontSize: "20px",
+                  padding: "30px 30px",
+                  marginRight: "30px",
+                  borderRadius: "5px",
+                  borderStyle: "none",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                }}
+                // onClick={handleCalenderClick}
+              >
+                <IoCalendarNumber style={{ marginRight: "5px" }} />
+                Calender
               </button>
             </div>
             {/* <div className="col-md-4 d-flex justify-content-around">
@@ -110,6 +137,27 @@ const Dashboard = () => {
         </div>
       </div> */}
       </div>
+      <h5
+        style={{
+          marginTop: "100px",
+          padding: "15px",
+          borderRadius: "5px",
+          background: "#224952",
+          color: "white",
+        }}
+      >
+        WELCOME
+      </h5>
+      <i>
+        PayEase is an efficient online platform designed for students to easily
+        manage and complete fee payments. It simplifies the process of paying
+        fees for educational institutions, offering a convenient and
+        user-friendly solution. With PayEase, students can securely make their
+        tuition and other fee payments electronically, saving time and effort.
+        This system streamlines the payment process, ensuring that students can
+        handle their financial obligations with ease and accuracy, enhancing the
+        overall experience of fee management in educational settings.
+      </i>
     </>
   );
 };

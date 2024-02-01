@@ -5,7 +5,7 @@ import Header from "../../components/header/header";
 
 import { useState } from "react";
 import axios from "axios";
-import "../../App.css";
+import "./createStudent.css";
 
 function CreateStudent() {
   //useNavigate to switch between pages
@@ -15,6 +15,7 @@ function CreateStudent() {
     name: "",
     gender: "",
     semester: "",
+    // RegNum: "",
     roll: "",
     email: "",
     guardianName: "",
@@ -53,8 +54,8 @@ function CreateStudent() {
   return (
     <div className="formContainer ">
       <Header />
-      <h1>Fill this form</h1>
-      <Form className="studentForm">
+      <h3 style={{marginTop:"20px", marginBottom:"10px", marginLeft:"140px"}}>Fill this form</h3>
+      <Form className="create-student-form">
         <Row>
           <FormGroup as={Col} md="6">
             {" "}

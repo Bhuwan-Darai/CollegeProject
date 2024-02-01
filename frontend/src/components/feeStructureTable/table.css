@@ -1,0 +1,12 @@
+.feestructure-table {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.feestructure-table tr th {
+  background-color: #224952;
+  color: white;
+}
+.no-feestructure{
+  margin-top: 100px;
+  text-align: center;
+
+}

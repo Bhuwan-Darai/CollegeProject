@@ -3,12 +3,13 @@
   position: sticky;
   top: 0;
   padding-top: 20px;
-  background-color: white;
+  background-color: #224952;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .hometop-container h3 {
   margin-left: 120px;
+  color: white;
 }
 .hometop-container a {
   text-decoration: none;
@@ -22,16 +23,21 @@
 
 .home-links a {
   text-decoration: none;
-  color: black;
+  color: white;
   margin-right: 15px; /* Add some spacing between links */
 }
 .home-links a:hover {
-  color: blue;
+  color: yellow;
 }
 .gotologin {
   border-color: blue;
+  border: none;
   padding: 3px 10px;
   border-radius: 6px;
+}
+.gotologin:hover {
+  background-color: blue;
+  color: white;
 }
 /*................home container.........*/
 .home-container {
@@ -62,6 +68,10 @@
   width: 400px;
   border-radius: 360px;
   margin-left: 200px;
+  transition: transform 0.3s;
+}
+.home-img:hover {
+  transform: scale(1.02);
 }
 /*.............about us ...........*/
 .aboutus-container {
@@ -77,6 +87,10 @@
   border-radius: 360px;
   margin-top: 30px;
   margin-left: 120px;
+  transition: transform 0.3s;
+}
+.aboutus-img:hover {
+  transform: scale(1.02);
 }
 .aboutus-container p {
   display: flex;
@@ -109,10 +123,20 @@
   margin-left: 150px;
   margin-top: 90px;
   padding-bottom: 50px;
+  transition: transform 0.3s;
+}
+.home-contact-img:hover {
+  transform: scale(1.02);
 }
 
 .social-icon {
-  font-size: 25px;
+  font-size: 45px;
+  margin-right: 12px;
+  transition: transform 0.3s;
+}
+.social-icon:hover {
+  transform: scale(1.02);
+  cursor: pointer;
 }
 /*..................Team Members...........*/
 .members-container {
@@ -137,6 +161,15 @@
 .Yujin {
   width: 200px;
   border-radius: 350px;
+}
+/* ...........transition effect to members photos......... */
+.member {
+  transition: transform 0.3s; /* Add a smooth transition effect */
+}
+
+.member:hover {
+  transform: scale(1.02); /* Grow by 2% when hovering */
+  cursor: pointer;
 }
 #copyright {
   text-align: center;

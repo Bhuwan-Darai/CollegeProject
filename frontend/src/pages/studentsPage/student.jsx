@@ -1,4 +1,4 @@
-import "../../App.css";
+import "./student.css";
 import { useEffect, useState } from "react";
 import { Button, Table, Form, Modal, FormControl } from "react-bootstrap";
 import axios from "axios";
@@ -37,7 +37,7 @@ function Student() {
   const deleteStudent = (id) => {
     //eslint-disable-next-line
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this student?",
+      "Are you sure you want to delete this student?"
     );
     axios
       .delete(`/deleteStudent/${id}`)
@@ -88,7 +88,7 @@ function Student() {
 
         <div
           className="d-flex "
-          style={{ marginTop: "5px", justifyContent: "space-between" }}
+          style={{ marginTop: "50px", justifyContent: "space-between" }}
         >
           <div
             style={{
@@ -98,7 +98,9 @@ function Student() {
             }}
           >
             <Form style={{ display: "flex", alignItems: "center" }}>
-              <Form.Label>Semester: </Form.Label>
+              <Form.Label>
+                <b>Semester: </b>
+              </Form.Label>
               <FormControl
                 name="sem"
                 as="select"
@@ -119,30 +121,23 @@ function Student() {
               </FormControl>
             </Form>
           </div>
-          <Button style={{ marginRight: "80px" }} onClick={() => goBack()}>
+          <Button
+            variant="outline-primary"
+            style={{ marginRight: "20px" }}
+            onClick={() => goBack()}
+          >
             Add Student{" "}
           </Button>
         </div>
         {student.length === 0 ? (
-          <div>No students available of requested semester</div>
+          <div className="student-available-info">
+            No students available for requested semester
+          </div>
         ) : (
           <div className="table-responsive">
-            <Table
-              style={{
-                marginTop: "10px",
-                border: "1px solid black",
-
-                boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-              }}
-            >
-              <thead>
-                <tr
-                  className="text-center table-header"
-                  style={{
-                    backgroundColor: "blue",
-                    border: "1px solid black",
-                  }}
-                >
+            <Table bordered hover className="student-table">
+              <thead className="table-head">
+                <tr>
                   <th>Roll</th>
                   <th>Semester</th>
                   <th>Name</th>

@@ -40,6 +40,9 @@ const PaymentForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Get userId from localStorage
+
     const {
       name,
       address,

@@ -1,10 +1,11 @@
-import "../../App.css";
+import "./accountant.css";
 import { useEffect, useState } from "react";
 import { Button, Table, Form, Modal } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import admin from "../assets/admin.png";
 import "../../pages/createAccountant/createAccountant";
+import Header from "../../components/header/header";
 
 function Accountant() {
   // const Students = () => {
@@ -26,7 +27,7 @@ function Accountant() {
   const deleteAccountant = (id) => {
     //eslint-disable-next-line
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this accountant?",
+      "Are you sure you want to delete this accountant?"
     );
     axios
       .delete(`/deleteAccountant/${id}`)
@@ -129,9 +130,10 @@ function Accountant() {
             </div>p
           </div>
         </div> */}
-        <div style={{ marginTop: "0px" }}>
-          <h3 style={{ borderBottom: "3px solid black" }}>Accountant List</h3>
+        <div>
+          <Header />
         </div>
+
         <div
           className="d-flex justify-content-end align-item-end"
           style={{ marginTop: "50px" }}
@@ -140,7 +142,7 @@ function Accountant() {
             Add Accountant{" "}
           </Button>
         </div>
-        <Table style={{ marginTop: "10px", border: "1px solid black" }}>
+        <Table bordered hover className="accountant-table">
           <thead>
             <tr className="text-center" style={{ backgroundColor: "blue" }}>
               <th>Name</th>

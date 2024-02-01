@@ -1,0 +1,9 @@
+.accountant-table {
+  margin-top: 40px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.accountant-table tr th {
+  background-color: #224952;
+  color: white;
+}

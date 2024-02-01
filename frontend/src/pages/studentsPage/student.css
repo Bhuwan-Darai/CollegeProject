@@ -1,0 +1,18 @@
+.student-table {
+  margin-top: 40px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border: 1px solid black;
+}
+.student-table tr th {
+  background-color: #224952;
+  color: white;
+}
+.student-available-info {
+  text-align: center;
+  margin-top: 50px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  padding-top: 50px;
+  padding-bottom: 50px;
+}

@@ -34,7 +34,7 @@ const router = express.Router();
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router
-  .route("/profile/:id")
+  .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProile);
 router.post("/registerStudent", registerStudent);
@@ -57,7 +57,7 @@ router.get("/payments", getPayment);
 router.get("/payments/:id", getByPaymentId);
 
 router.get("/invoice/:semester", getInvoice);
-router.put("/notification/:id/mark-as-read", readNotification);
+
 router.post("/createSemesterFee", createSemesterFee);
 router.post("/fees", feeStructure);
 router.put("/updateFeeStructure/:id", updateFeeStructure);

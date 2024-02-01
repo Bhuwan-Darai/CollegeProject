@@ -1,0 +1,10 @@
+.create-accountant-form {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  box-shadow: 0 2px 4px;
+  width: 50%;
+
+  margin-left: 330px;
+  margin-top: 50px;
+}

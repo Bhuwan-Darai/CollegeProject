@@ -2,7 +2,7 @@ import { Container, Form, Row, FormGroup, Col, Button } from "react-bootstrap";
 import Header from "../../components/header/header";
 import axios from "axios";
 import { useState } from "react";
-
+import "./sendMail.css";
 const SendMail = () => {
   const [mail, setMail] = useState({
     userName: "",
@@ -36,8 +36,9 @@ const SendMail = () => {
   return (
     <>
       <Header />
+      <h5 style={{ marginTop: "10px" }}>Send deu notification email</h5>
       <Container>
-        <Form>
+        <Form className="sendmail-container">
           <Row>
             <FormGroup as={Col} md="6">
               <label>User Name</label>
@@ -69,6 +70,7 @@ const SendMail = () => {
               />
             </FormGroup>
           </Row>
+
           <Row>
             <Form.Group>
               <Button
@@ -76,7 +78,7 @@ const SendMail = () => {
                 variant="outline-primary"
                 onClick={handleClick}
               >
-                Submit
+                Send
               </Button>
             </Form.Group>
           </Row>

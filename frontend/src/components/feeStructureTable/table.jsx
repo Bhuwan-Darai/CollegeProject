@@ -1,3 +1,4 @@
+import "./table.css";
 import { useEffect, useState } from "react";
 import {
   Container,
@@ -25,6 +26,7 @@ const TableComponent = () => {
     infrastructureDevelopmentFee: "",
     labFee: "",
     identityCardFee: "",
+    totalFee: "",
   });
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -99,8 +101,21 @@ const TableComponent = () => {
 
   return (
     <>
-      <Container fluid style={{ border: "1px solid black" }}>
-        <div style={{ textAlign: "center" }}>
+      <Container
+        fluid
+        style={{
+          marginTop: "40px",
+          boxShadow: " 0 2px 4px rgba(0, 0, 0, 0.5)",
+          height: "65vh",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            borderBottom: "2px solid black",
+            marginBottom: "20px",
+          }}
+        >
           <h4>Aadikavi Bhanubhankta Campus </h4>
           <span>Estd.2004</span>
           <h5>vyas-1 Bigyanchaur, Damauli </h5>
@@ -135,9 +150,9 @@ const TableComponent = () => {
           </Form>
         </div>
         {feeStructure.length === 0 ? (
-          <div>No fee structure available.</div>
+          <div className="no-feestructure">No fee structure available.</div>
         ) : (
-          <Table striped bordered hover>
+          <Table bordered hover className="feestructure-table">
             <thead>
               <tr>
                 <th>Particulars</th>
@@ -190,6 +205,7 @@ const TableComponent = () => {
                         </Button>
                         <Button
                           variant="outline-danger"
+                          style={{ marginLeft: "5px" }}
                           onClick={() => deleteFeeStr(fee._id)}
                         >
                           Delete
@@ -197,7 +213,7 @@ const TableComponent = () => {
                       </>
                     )}
                     {userRole.includes("Accountant") && (
-                      <div>
+                      <div className="d-felx jusify-content-spacebetween">
                         <Button
                           variant="outline-success"
                           onClick={() => updateFeeStr(fee._id)}
@@ -206,6 +222,7 @@ const TableComponent = () => {
                         </Button>
                         <Button
                           variant="outline-danger"
+                          style={{ marginLeft: "5px" }}
                           onClick={() => deleteFeeStr(fee._id)}
                         >
                           Delete

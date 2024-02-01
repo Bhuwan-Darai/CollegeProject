@@ -19,6 +19,7 @@ import StatementDetails from "./pages/statements/StatementDetails";
 import Invoice from "./pages/invoicePage/invoice";
 import SendMail from "./pages/sendMail/sendMail";
 import Profile from "./pages/profile/profile";
+
 function App() {
   return (
     <Router>

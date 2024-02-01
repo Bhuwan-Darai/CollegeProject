@@ -47,39 +47,44 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   padding-left: 0px !important;
 }
-.login {
-  width: 5px;
-}
-.rowpad {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-}
-.form-container form {
-  width: 100%;
-  padding: 0px 60px;
-}
-
 .login-template {
   justify-content: center;
   height: 100vh;
   align-items: center;
-  background-color: rgb(6, 121, 244);
+  background-color: #224952;
 }
-
+.form-container form {
+  width: 80%;
+  padding: 0px 60px;
+  border: 1px solid red;
+  border-radius: 5px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.form-control {
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
 .front-img {
-  width: 100%;
+  width: 80%;
   height: auto;
+  margin-left: 200px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
 }
 
-.form-control {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-.loginbutton {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+.backtohomepage a {
+  background-color: rgb(6, 121, 244);
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  margin-top: 5px;
+  padding: 6px 6px;
+  border-radius: 5px;
 }
 
 /* ..........................sidebar............................. */
@@ -149,11 +154,11 @@ main {
 }
 
 /*payment*/
-.payment-container h4 {
+/* .payment-container h4 {
   background-color: lightskyblue;
   border-bottom: 3px solid black;
   padding: 5px 3px;
-}
+} */
 /* .................form............. */
 .paymentMethods {
   display: flex;
@@ -164,117 +169,4 @@ main {
   margin-top: 50px;
   border: 2px solid black;
   border-radius: 10px;
-}
-
-/* ...................form top content............. */
-.bill-topnav {
-  background-color: lightskyblue;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  text-align: center;
-  border-bottom: 2px solid black;
-  line-height: 2px;
-}
-.bill-topnav h3 {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-/* ............................form main content................... */
-.form-content {
-  margin-left: 10px;
-}
-/* ............username............. */
-.Uname {
-  border-radius: 5px;
-  margin-left: 37px;
-  margin-top: 10px;
-}
-/*...............student id ..............*/
-.S_id {
-  border-radius: 5px;
-  margin-left: 65px;
-  margin-top: 5px;
-}
-/*................s-DOB...................*/
-.DOB {
-  border-radius: 5px;
-  margin-left: 105px;
-  margin-top: 5px;
-}
-/* ..................student number ................ */
-.phoneNumber {
-  border-radius: 5px;
-  margin-left: 30px;
-  margin-top: 5px;
-}
-/*..............student email............*/
-.s-email {
-  border-radius: 5px;
-  margin-left: 99px;
-  margin-top: 5px;
-}
-/*...............Guardian Name.................*/
-.Guardian {
-  border-radius: 5px;
-  margin-left: 27px;
-  margin-top: 5px;
-}
-/*.............Guardin number............*/
-.G-number {
-  border-radius: 5px;
-  margin-left: 20px;
-  margin-top: 5px;
-}
-/*............Guardian Email...............*/
-.G-email {
-  border-radius: 5px;
-  margin-left: 30px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-.savebutton {
-  background-color: lightskyblue;
-  padding: 3px 8px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/*..............Buttons....................*/
-.methods {
-  text-decoration: underline;
-  text-align: center;
-}
-.pay-button {
-  margin-top: 20px;
-  text-align: center;
-}
-.upload {
-  border-radius: 10px;
-  padding: 5px 10px;
-  margin-right: 2px;
-  margin-left: 30px;
-}
-.upload:hover {
-  cursor: pointer;
-  background-color: lightskyblue;
-}
-.qr {
-  border-radius: 10px;
-  padding: 5px 20px;
-  margin-left: 20px;
-}
-.qr:hover {
-  cursor: pointer;
-  background-color: lightskyblue;
-}
-
-.dropzone-box {
-  border: 2px dashed gray;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.dropzone-box p {
-  margin: 0;
 }
