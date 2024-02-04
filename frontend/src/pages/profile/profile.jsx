@@ -1,93 +1,108 @@
-// import { useEffect, useState } from "react";
+/* eslint-disable no-undef */
+// import { useState, useEffect } from "react";
 // import axios from "axios";
-// import { Col, Row } from "react-bootstrap";
-// // import { useUserContext } from "../../userRoleContext"; // Adjust the import path according to your project structure
 // import Header from "../../components/header/header";
 
 // const Profile = () => {
-//   const id = localStorage.getItem("userId");
-//   //   const { userId } = useUserContext();
-//   const [profile, setProfile] = useState(null);
-//   console.log("userid in profile ", id);
-//   useEffect(() => {
-//     if (id) {
-//       axios
-//         .get(`/profile`)
-//         .then((res) => {
-//           setProfile(res.data);
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     }
-//   }, [id]);
+//   const [user, setUser] = useState({});
+//   const [loading, setLoading] = useState(true);
 
-//   if (!profile) {
-//     return <div>Loading...</div>; // Or any other loading state representation
+//   useEffect(() => {
+//     const userId = localStorage.getItem("userId");
+//     const userRole = localStorage.getItem("userRole");
+
+//     const getProfile = async () => {
+//       try {
+//         const response = await axios.get(
+//           `/getUserProfile/${userId}/${userRole}`,
+//         );
+//         setUser(response.data);
+//         setLoading(false);
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     };
+
+//     if (userId) {
+//       getProfile();
+//     }
+//   }, []);
+
+//   if (loading) {
+//     return <p>Loading...</p>;
 //   }
 
 //   return (
 //     <div>
 //       <Header />
-//       <Row>
-//         <Col md={6}>
-//           <p>Name: {profile.name}</p>
-//           <p>Email: {profile.email}</p>
-//           <p>Contact: {profile.contact}</p>
-//           <p>Gender: {profile.gender}</p>
-//           <p>Role: {profile.role}</p>
-//           <p>Status: {profile.status}</p>
-//         </Col>
-//       </Row>
+//       {userRole === "accountant" && (
+//         <>
+//           <p>Contact: {user.contact}</p>
+//           {/* Add other accountant-specific details */}
+//         </>
+//       )}
+//       {userRole === "student" && (
+//         <>
+//           <p>Admission Number: {user.admissionNumber}</p>
+//           <p>Semester: {user.semester}</p>
+//           {/* Add other student-specific details */}
+//         </>
+//       )}
 //     </div>
 //   );
 // };
 
 // export default Profile;
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Col, Row } from "react-bootstrap";
 import Header from "../../components/header/header";
 
 const Profile = () => {
-  const id = localStorage.getItem("userId");
-  const [profile, setProfile] = useState(null);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      axios
-        .get(`/profile`)
-        .then((res) => {
-          setProfile(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [id]);
+    const userId = localStorage.getItem("userId");
+    const userRole = localStorage.getItem("userRole");
 
-  if (!profile) {
-    return <div>Loading...</div>; // Or any other loading state representation
+    const getProfile = async () => {
+      try {
+        const response = await axios.get(
+          `/getUserProfile/${userId}/${userRole}`,
+        );
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (userId && userRole) {
+      getProfile();
+    }
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
   return (
     <div>
       <Header />
-      <Row>
-        <Col md={6}>
-          <Card>
-            <Card.Body>
-              <Card.Title>{profile.name}</Card.Title>
-              <Card.Text>Email: {profile.email}</Card.Text>
-              <Card.Text>Contact: {profile.contact}</Card.Text>
-              <Card.Text>Gender: {profile.gender}</Card.Text>
-              <Card.Text>Role: {profile.role}</Card.Text>
-              <Card.Text>Status: {profile.status}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      {userRole === "Accountant" && (
+        <>
+          <p>Contact: {user.contact}</p>
+          {/* Add other accountant-specific details */}
+        </>
+      )}
+      {userRole === "User" && (
+        <>
+          <p>Admission Number: {user.admissionNumber}</p>
+          <p>Semester: {user.semester}</p>
+          {/* Add other student-specific details */}
+        </>
+      )}
     </div>
   );
 };

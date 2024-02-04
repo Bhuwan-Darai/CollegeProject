@@ -13,7 +13,7 @@
   }
 }
 
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,9 +22,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
-.App-link {
+/* .App-link {
   color: #61dafb;
 }
 
@@ -35,12 +35,16 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+* {
+  font-size: 15px;
 }
 
 /* ..........................Login page............................. */
 
 .form-container {
-  width: 100%;
+  width: 80%;
   height: 100%;
   background-color: #ffffff;
   display: flex;
@@ -60,8 +64,8 @@
 .form-container form {
   width: 80%;
   padding: 0px 60px;
-  border: 1px solid red;
-  border-radius: 5px;
+  border-left: 3px solid #224952;
+
   padding-top: 20px;
   padding-bottom: 20px;
 }

@@ -13,6 +13,7 @@ const Logout = () => {
   };
   return (
     /* <Header/>*/
+
     <div className="logout-container">
       <h5>Are you sure you want to logout?</h5>
       <div style={{ marginTop: "10px", marginBottom: "10px" }}>

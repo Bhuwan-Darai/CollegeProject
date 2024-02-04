@@ -9,74 +9,126 @@ const SemesterFee = require("../models/semesterFeeStructure");
 const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
 const { EMAIL, PASSWORD } = require("../config/email");
-const mongoose = require("mongoose");
 
 //  @desc   Auth user & get token
 //  @route  POST /auth
 //  @access Public
+// const authUser = asyncHandler(async (req, res) => {
+//   const { email, password } = req.body;
+
+// if (!email || !password) {
+//   return res.json({ message: "All fields are required", success: false });
+// }
+
+//   if (email === admin.email && password === admin.password) {
+// generateToken(res, Admin._id);
+// return res.status(200).json({
+//   _id: Admin._id,
+//   name: Admin.name,
+//   role: Admin.role,
+//   message: "Admin login successful",
+//   success: true,
+// });
+//   }
+
+//   try {
+//     const userTypes = [User, Accountant];
+
+//     let user = null;
+
+//     for (const UserType of userTypes) {
+//       user = await UserType.findOne({ email });
+//       if (user) break;
+//     }
+
+//     if (!user) {
+// return res.json({ message: "No user found" });
+//     }
+
+// const isPasswordCorrect = await user.matchPassword(password);
+
+// if (!isPasswordCorrect) {
+//   return res.json({ message: "Incorrect password" });
+// } else {
+//   generateToken(res, user._id);
+
+//   return res.status(200).json({
+//     _id: user._id,
+//     name: user.name,
+//     email: user.email,
+//     role: user.constructor.modelName,
+//     message: "Successfully logged in",
+//     success: true,
+//   });
+// }
+//   } catch (error) {
+// console.error(error);
+// return res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
+//?
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
-  if (!email || !password) {
-    return res.json({ message: "All fields are required", success: false });
-  }
-  if (email === admin.email && password === admin.password) {
-    generateToken(res, Admin._id);
-    return res.status(200).json({
-      _id: Admin._id,
-      name: Admin.name,
-      role: Admin.role,
-      message: "Admin login successfull",
-      success: true,
-    });
-  }
-
   try {
-    const userTypes = [User, Accountant];
+    const { email, password } = req.body;
 
-    let user = null;
-
-    // Check if the user is an admin
-    // const adminUser = await Admin.find(
-    //   (adminUser) =>
-    //     adminUser.email === email && adminUser.password === password,
-    // );
-
-    //  Check if the user is a user or accountant
-    for (const UserTypes of userTypes) {
-      user = await UserTypes.findOne({ email });
-      if (user) break;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required", success: false });
     }
 
+    if (email === admin.email && password === admin.password) {
+      // Admin login
+      generateToken(res, Admin._id);
+      return res.status(200).json({
+        _id: Admin._id,
+        name: Admin.name,
+        role: Admin.role,
+        message: "Admin login successful",
+        success: true,
+      });
+    }
+
+    const user =
+      (await User.findOne({ email })) || (await Accountant.findOne({ email }));
+
     if (!user) {
-      return res.json({ message: "No user found " });
+      return res
+        .status(400)
+        .json({ message: "Invalid credentials", success: false });
     }
 
     const isPasswordCorrect = await user.matchPassword(password);
 
     if (!isPasswordCorrect) {
-      return res.json({ message: "Incorrect password" });
-    } else {
-      generateToken(res, user._id);
-
-      return res.status(200).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.constructor.modelName,
-        message: "Successfully logged in",
-        success: true,
-      });
+      return res
+        .status(400)
+        .json({ message: "Incorrect password", success: false });
     }
+
+    // User login
+    generateToken(res, user._id);
+    return res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.constructor.modelName,
+      message: "Successfully logged in",
+      success: true,
+    });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", success: false });
   }
 });
 
-// @desc    Register a new user or accountant
+// @desc    Register a new user or student
 // @route   POST /api/registerStudent
 // @access  Private
+
 const registerStudent = asyncHandler(async (req, res) => {
   try {
     const {
@@ -85,22 +137,28 @@ const registerStudent = asyncHandler(async (req, res) => {
       gender,
       semester,
       password,
-      roll,
       guardianName,
       contact,
       CreatedAt,
     } = req.body;
 
     //  Check either student exists or not
-    const existingStudent = await User.findOne({ email });
+    const existingStudent = await User.findOne({ email, name });
     if (existingStudent) {
-      return res.json({ error: "Student already exists" });
+      // Check if duplicate email
+      if (existingStudent.email === email) {
+        throw new Error("Email already exists");
+      }
+
+      // Check if duplicate name
+      if (existingStudent.name === name) {
+        throw new Error("Name already exists");
+      }
     }
 
     //  if not create Student
     const createStudent = await User.create({
       name,
-      roll,
       email,
       gender,
       semester,
@@ -123,7 +181,10 @@ const registerStudent = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "An error occured while creating the post" });
+    res.status(500).json({
+      error: "An error occured while creating the post",
+      succes: false,
+    });
   }
 });
 
@@ -172,7 +233,6 @@ const updateStudent = asyncHandler(async (req, res) => {
       },
       {
         name: req.body.name,
-        roll: req.body.roll,
         semester: req.body.semester,
         email: req.body.email,
         guardianName: req.body.guardianName,
@@ -196,13 +256,20 @@ const deleteStudent = asyncHandler(async (req, res) => {
   try {
     const deleted = await User.findByIdAndDelete({ _id: req.params.id });
     if (!deleted) {
-      return res.status(404).json({ message: "Student not deleted" });
+      return res
+        .status(404)
+        .json({ message: "Student not deleted", succes: false });
     }
     console.log(deleted);
-    res.status(200).json({ message: "Student deleted successfully" });
+    res
+      .status(200)
+      .json({ message: "Student deleted successfully", succes: true });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "An error occured while deleting the post" });
+    res.status(500).json({
+      error: "An error occured while deleting the post",
+      succes: false,
+    });
   }
 });
 
@@ -222,9 +289,12 @@ const registerAccountant = asyncHandler(async (req, res) => {
     // if not create Accountant
     const createAccountant = await Accountant.create({
       name,
+      semester,
       email,
+      guardianName,
       contact,
       password,
+      gender,
     });
 
     if (createAccountant) {
@@ -371,29 +441,34 @@ const processPayments = asyncHandler(async (req, res) => {
 const verifyPayment = asyncHandler(async (req, res) => {
   try {
     const { id, email } = req.body;
-    console.log(id, email);
 
+    // Find the payment in the Payment collection
     const paymentObject = await payment.findById(id);
 
     if (!paymentObject) {
       return res.status(404).json({ message: "No payment found" });
     }
 
-    // Get user
+    // Find the user in the User collection
     const user = await User.findOne({ email });
-    console.log(user);
 
     if (!user) {
       return res.status(404).json({ message: "No user found" });
     }
 
-    // Update user payment status
-    user.status = "paid";
-    await user.save();
+    // Check if payment is already verified
+    if (paymentObject.verified) {
+      return res.status(400).json({ message: "Payment is already verified" });
+    }
 
-    // Update payment status
-    // paymentObject.status = "paid";
-    // await paymentObject.save();
+    // Update user payment status to "paid"
+    user.status = "paid";
+
+    // Update payment status to "verified"
+    paymentObject.verified = true;
+
+    // Save changes to the database
+    await Promise.all([user.save(), paymentObject.save()]);
 
     // Send success response
     res.status(200).json({
@@ -494,53 +569,31 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @desc    Get user profile
 // @route   GET /users/profile
 // @access  Private
-// @desc    Get user profile
-// @route   GET /users/profile
-// @access  Private
-// const getUserProfile = asyncHandler(async (req, res) => {
-//   // Get user from session
-//   const user = req.session.user;
-//   console.log(user);
 
-//   if (!user) {
-//     res.status(401);
-//     throw new Error("User not found");
-//   }
+const getUserProfile = async (req, res) => {
+  const { userId, userRole } = req.params;
 
-//   try {
-//     // Fetch user from DB
-//     const dbUser = await User.findById(user._id);
+  try {
+    let userProfile;
 
-//     if (!dbUser) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
+    if (userRole === "User") {
+      userProfile = await User.findById(userId);
+    } else if (userRole === "Accountant") {
+      userProfile = await Accountant.findById(userId);
+    } else {
+      return res.status(400).json({ message: "Invalid user role" });
+    }
 
-//     // Remove password hash for security
-//     dbUser.password = undefined;
+    if (!userProfile) {
+      return res.status(404).json({ message: "User profile not found" });
+    }
 
-//     res.json(dbUser);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
-const getUserProfile = asyncHandler(async (req, res) => {
-  console.log(req.user);
-  if (req.user) {
-    res.json({
-      _id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      contact: req.user.contact,
-      gender: req.user.gender,
-      role: req.user.role,
-      status: req.user.status,
-    });
-  } else {
-    res.status(404);
-    throw new Error("User not found ");
+    res.json(userProfile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
-});
+};
 
 // @desc    Update user profile
 // @route   PUT /users/profile

@@ -34,7 +34,7 @@ const router = express.Router();
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router
-  .route("/profile")
+  .route("/getUserProfile/:userId/:userRole")
   .get(protect, getUserProfile)
   .put(protect, updateUserProile);
 router.post("/registerStudent", registerStudent);
@@ -44,6 +44,7 @@ router.route("/student/:id").put(protect, updateStudent);
 router.delete("/deleteStudent/:id", deleteStudent);
 router.post("/registerAccountant", registerAccountant);
 router.get("/getAccountant", getAccountant);
+
 router
   .route("/accountant")
   .get(protect, getAccountant)

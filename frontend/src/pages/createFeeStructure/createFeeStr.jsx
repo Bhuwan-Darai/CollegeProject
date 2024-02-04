@@ -4,6 +4,7 @@ import Header from "../../components/header/header";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const CreateFeeStr = () => {
   const navigate = useNavigate();
@@ -39,9 +40,22 @@ const CreateFeeStr = () => {
     //? use axios to communicate with backend
     axios
       .post("/createSemesterFee", feeStructure)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        // Success alert
+        swal("Success", "Fee structure created successfully", "success");
 
+        console.log(res);
+      })
+      .catch((err) => {
+        // Error alert
+        swal(
+          "Error",
+          "An error occurred while creating fee structure",
+          "error",
+        );
+
+        console.log(err);
+      });
     //? after completion navigate to Fee Structure
     navigate("/feeStructure");
   };
@@ -49,7 +63,7 @@ const CreateFeeStr = () => {
   return (
     <div>
       <Header />
-      <h3 style={{ marginLeft:"140px", marginTop:"20px"}}>Fill this form</h3>
+      <h3 style={{ marginLeft: "140px", marginTop: "20px" }}>Fill this form</h3>
       <Form className="create-feestructure-form">
         <Row>
           <Col md={6}>

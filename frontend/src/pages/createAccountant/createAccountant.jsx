@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 // import { MDBFile } from "mdb-react-ui-kit";
-
+import swal from "sweetalert";
 import { useState } from "react";
 import axios from "axios";
 import "./createAccountant.css";
@@ -38,8 +38,24 @@ function CreateAccountant() {
     //use axios to communicate with backend
     axios
       .post("/registerAccountant", accountant)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+
+        // Success alert
+        swal("Success", "Accountant created successfully", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+
+        // Error alert
+        swal({
+          title: "Error",
+          text: "An error occurred while creating the accountant",
+          icon: "error",
+          buttons: true,
+          dangerMode: true,
+        });
+      });
 
     // after completion navigate to posts
     navigate("/accountant");

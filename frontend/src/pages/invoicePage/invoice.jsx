@@ -31,7 +31,7 @@ const InvoiceContent = forwardRef(({ invoice, getMonthName }, ref) => (
             <Col md={6}>
               <p>Bill No.: {invoice._id}</p>
               <p>Date: {new Date(invoice.paymentDate).toLocaleDateString()}</p>
-              <p>Roll No. :</p>
+              <p>Admission Number :{invoice.admissionNumber}</p>
               <p>Level: Bachelor</p>
               <p>Semester: {invoice.semester}</p>
             </Col>

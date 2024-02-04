@@ -24,14 +24,6 @@ const accountantSchema = mongoose.Schema({
     type: String,
     default: "accountant", // default role
   },
-  notification: {
-    type: Array,
-    default: [],
-  },
-  seennotification: {
-    type: Array,
-    default: [],
-  },
 });
 
 //?  Match user entered password to hashed password

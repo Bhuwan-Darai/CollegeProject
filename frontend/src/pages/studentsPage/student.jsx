@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 // import admin from "../assets/admin.png";
 import "../../pages/createStudent/createStudent";
 import Header from "../../components/header/header";
+import swal from "sweetalert";
 
 function Student() {
   // const Students = () => {
@@ -37,7 +38,7 @@ function Student() {
   const deleteStudent = (id) => {
     //eslint-disable-next-line
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this student?"
+      "Are you sure you want to delete this student?",
     );
     axios
       .delete(`/deleteStudent/${id}`)
@@ -74,8 +75,18 @@ function Student() {
   const saveUpdatedStudent = () => {
     axios
       .put(`/updateStudent/${updatedStudent._id}`, updatedStudent)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+
+        // Display success message using sweetalert
+        swal("Success", "Student updated successfully", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+
+        // Display error message using sweetalert
+        swal("Error", "An error occurred while updating the student", "error");
+      });
 
     handleClose();
     window.location.reload();
@@ -138,8 +149,7 @@ function Student() {
             <Table bordered hover className="student-table">
               <thead className="table-head">
                 <tr>
-                  <th>Roll</th>
-                  <th>Semester</th>
+                  <th>AdmissionNum</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Guardian Name</th>
@@ -152,8 +162,7 @@ function Student() {
               <tbody>
                 {student.map((student) => (
                   <tr key={student._id} className="text-center">
-                    <td>{student.roll} </td>
-                    <td>{student.semester} </td>
+                    <td>{student.admissionNumber} </td>
                     <td>{student.name} </td>
                     <td>{student.email} </td>
                     <td>{student.guardianName} </td>

@@ -3,8 +3,9 @@ import ImageFront from "../../assets/Imagefront.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+
 import { useUserContext } from "../../userRoleContext";
+import { Button } from "react-bootstrap";
 
 const Login = () => {
   const { updatedUserRole } = useUserContext();
@@ -44,10 +45,13 @@ const Login = () => {
       });
 
       if (response && response.data) {
-        const { success, message, role } = response.data;
+        const { success, message, role, _id } = response.data;
         console.log(response.data);
-        if (success && message && role) {
+        if (success && message && role && _id) {
           await updatedUserRole(String(role));
+
+          // Save user ID in localStorage
+          localStorage.setItem("userId", _id);
 
           handleSuccess(message);
           setTimeout(() => {
@@ -116,7 +120,7 @@ const Login = () => {
                     />
                   </div>
                   <div className="backtohomepage">
-                    <Button type="submit" onClick={handleSubmit}>
+                    <Button className="" type="submit" onClick={handleSubmit}>
                       Login
                     </Button>
 

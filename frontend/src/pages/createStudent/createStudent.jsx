@@ -2,7 +2,7 @@ import { Button, Form, Row, FormGroup, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/header";
 // import { MDBFile } from "mdb-react-ui-kit";
-
+import swal from "sweetalert";
 import { useState } from "react";
 import axios from "axios";
 import "./createStudent.css";
@@ -15,8 +15,6 @@ function CreateStudent() {
     name: "",
     gender: "",
     semester: "",
-    // RegNum: "",
-    roll: "",
     email: "",
     guardianName: "",
     contact: "",
@@ -37,24 +35,41 @@ function CreateStudent() {
   };
 
   //send data to backend api and store it on databse after call of api
-  const handleClick = (e) => {
-    //to prevent form default behaviour OF FORM
+  const handleClick = async (e) => {
     e.preventDefault();
 
-    //use axios to communicate with backend
-    axios
-      .post("/registerStudent", post)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    try {
+      await axios.post("/registerStudent", post);
 
-    // after completion navigate to posts
-    navigate("/Students");
+      // Success alert
+      swal("Success", "Student created successfully", "success");
+    } catch (error) {
+      if (error.response) {
+        const errMessage = JSON.stringify(error.response.data);
+
+        swal({
+          title: "Error",
+          text: errMessage,
+          icon: "error",
+          buttons: true,
+          dangerMode: true,
+        });
+      } else if (error.request) {
+        swal("Network Error", "Please check internet connection");
+      } else {
+        swal("Error while creating student");
+      }
+    }
   };
 
   return (
     <div className="formContainer ">
       <Header />
-      <h3 style={{marginTop:"20px", marginBottom:"10px", marginLeft:"140px"}}>Fill this form</h3>
+      <h3
+        style={{ marginTop: "20px", marginBottom: "10px", marginLeft: "140px" }}
+      >
+        Fill this form
+      </h3>
       <Form className="create-student-form">
         <Row>
           <FormGroup as={Col} md="6">
@@ -86,17 +101,6 @@ function CreateStudent() {
         </Row>
         <Row>
           {" "}
-          <FormGroup as={Col} md="6">
-            {" "}
-            <label>Roll Number</label>
-            <Form.Control
-              name="roll"
-              placeholder="Roll number"
-              type="number"
-              value={post.roll}
-              onChange={handleChange}
-            />
-          </FormGroup>
           <FormGroup as={Col} md="6">
             <label>Semester</label>
             <Form.Control

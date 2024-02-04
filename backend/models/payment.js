@@ -43,6 +43,10 @@ const paymentSchema = new mongoose.Schema({
     ref: "SemesterFee",
     required: true,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("payment", paymentSchema);
