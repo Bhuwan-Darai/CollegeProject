@@ -5,7 +5,7 @@ import * as IoIcons from "react-icons/io";
 import * as BsIcons from "react-icons/bs";
 import * as FcIcons from "react-icons/fc";
 import { FaBars } from "react-icons/fa";
-
+import logo1 from "../../assets/logo1.png";
 import { NavLink } from "react-router-dom";
 import { useUserContext } from "../../userRoleContext";
 import "../../App.css";
@@ -95,10 +95,14 @@ const Sidebar = ({ children }) => {
 
   return (
     <div className="container-sidebar">
-      <div style={{ width: isOpen ? "250px" : "50px" }} className="sidebar">
+      <div style={{ width: isOpen ? "200px" : "50px" }} className="sidebar">
         <div className="top_section">
           <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">
-            PayEase
+            <img
+              src={logo1}
+              alt=""
+              style={{ height: "100px", width: "100px" }}
+            />
           </h1>
           <div style={{ marginLeft: isOpen ? "50px" : "0px" }} className="bars">
             <FaBars onClick={toggle} />

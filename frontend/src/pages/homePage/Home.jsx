@@ -1,6 +1,7 @@
 // import Topnav from "../../components/Topnav/Topnav";
 import { MdEmail, MdPhone, MdLocationOn, MdCopyright } from "react-icons/md";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import logo1 from "../../assets/logo1.png";
 import Bhuwan from "../../assets/Bhuwan.png";
 import Bibek from "../../assets/Bibek.png";
 import Yujin from "../../assets/Yujin.png";
@@ -31,7 +32,11 @@ function Home() {
           <div className="col-md-6">
             <Link to="/" onClick={scrollToHome}>
               {" "}
-              <h3>PayEase</h3>
+              <img
+                src={logo1}
+                alt=""
+                style={{ height: "50px", width: "50px", marginLeft: "50px" }}
+              />
             </Link>
           </div>
           <div className="col-md-6">

@@ -4,6 +4,7 @@ import Dropzone from "react-dropzone";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../../components/header/header";
+import QR from "../../assets/QR.jpeg";
 const PaymentForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -110,134 +111,161 @@ const PaymentForm = () => {
   return (
     <Container className="  ">
       <Header />
-      <Form onSubmit={handleSubmit} className="mt-4">
-        <Row>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Row>
-        <Row>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Program</Form.Label>
-            <Form.Control
-              type="text"
-              name="program"
-              value={formData.program}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Batch No.</Form.Label>
-            <Form.Control
-              type="text"
-              name="batch"
-              value={formData.batch}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Row>
-        <Row>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Semester</Form.Label>
-            <Form.Control
-              type="text"
-              name="semester"
-              value={formData.semester}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Parent Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="parentsName"
-              value={formData.parentsName}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Row>
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            <Form
+              onSubmit={handleSubmit}
+              className="mt-4"
+              style={{
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                padding: "10px",
+              }}
+            >
+              <Row>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Row>
+              <Row>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Program</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="program"
+                    value={formData.program}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Batch No.</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="batch"
+                    value={formData.batch}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Row>
+              <Row>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Semester</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="semester"
+                    value={formData.semester}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Parent Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="parentsName"
+                    value={formData.parentsName}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Row>
 
-        <FormGroup as={Col} md="6">
-          <Form.Label>Photo</Form.Label>
-          <Dropzone onDrop={handleDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <div className="dropzone-container" {...getRootProps()}>
-                <input {...getInputProps()} />
-                <div className="dropzone-box">
-                  {previewImage ? (
-                    <img
-                      src={previewImage}
-                      alt="Uploaded"
-                      style={{ maxWidth: "100%", maxHeight: "200px" }}
-                    />
-                  ) : (
-                    <p>Drag & drop a photo here or click to select one</p>
+              <FormGroup as={Col} md="6">
+                <Form.Label>Photo</Form.Label>
+                <Dropzone onDrop={handleDrop}>
+                  {({ getRootProps, getInputProps }) => (
+                    <div className="dropzone-container" {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <div className="dropzone-box">
+                        {previewImage ? (
+                          <img
+                            src={previewImage}
+                            alt="Uploaded"
+                            style={{ maxWidth: "100%", maxHeight: "200px" }}
+                          />
+                        ) : (
+                          <p>Drag & drop a photo here or click to select one</p>
+                        )}
+                      </div>
+                    </div>
                   )}
-                </div>
-              </div>
-            )}
-          </Dropzone>
-        </FormGroup>
-        <Row>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Guardian Contact</Form.Label>
-            <Form.Control
-              type="number"
-              name="guardianContact"
-              value={formData.guardianContact}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Row>
-        <Row>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Amount</Form.Label>
-            <Form.Control
-              type="number"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-            />
-          </FormGroup>
-          <FormGroup as={Col} md="6">
-            <Form.Label>Payment Date</Form.Label>
-            <Form.Control
-              type="date"
-              name="paymentDate"
-              value={formData.paymentDate}
-              onChange={handleChange}
-            />
-          </FormGroup>
-        </Row>
+                </Dropzone>
+              </FormGroup>
+              <Row>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Guardian Contact</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="guardianContact"
+                    value={formData.guardianContact}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Row>
+              <Row>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Amount</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="amount"
+                    value={formData.amount}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+                <FormGroup as={Col} md="6">
+                  <Form.Label>Payment Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="paymentDate"
+                    value={formData.paymentDate}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Row>
 
-        <Button className="mt-3" type="submit">
-          Submit
-        </Button>
-      </Form>
+              <Button className="mt-3" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </div>
+          <div className="col-md-6">
+            <center>
+              {" "}
+              <h3 style={{ marginTop: "20px" }}>Scan Here</h3>
+            </center>
+            <center>
+              {" "}
+              <img
+                src={QR}
+                alt=""
+                style={{ height: "200px", width: "200px" }}
+              />
+            </center>
+          </div>
+        </div>
+      </div>
     </Container>
   );
 };

@@ -10,63 +10,6 @@ const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
 const { EMAIL, PASSWORD } = require("../config/email");
 
-//  @desc   Auth user & get token
-//  @route  POST /auth
-//  @access Public
-// const authUser = asyncHandler(async (req, res) => {
-//   const { email, password } = req.body;
-
-// if (!email || !password) {
-//   return res.json({ message: "All fields are required", success: false });
-// }
-
-//   if (email === admin.email && password === admin.password) {
-// generateToken(res, Admin._id);
-// return res.status(200).json({
-//   _id: Admin._id,
-//   name: Admin.name,
-//   role: Admin.role,
-//   message: "Admin login successful",
-//   success: true,
-// });
-//   }
-
-//   try {
-//     const userTypes = [User, Accountant];
-
-//     let user = null;
-
-//     for (const UserType of userTypes) {
-//       user = await UserType.findOne({ email });
-//       if (user) break;
-//     }
-
-//     if (!user) {
-// return res.json({ message: "No user found" });
-//     }
-
-// const isPasswordCorrect = await user.matchPassword(password);
-
-// if (!isPasswordCorrect) {
-//   return res.json({ message: "Incorrect password" });
-// } else {
-//   generateToken(res, user._id);
-
-//   return res.status(200).json({
-//     _id: user._id,
-//     name: user.name,
-//     email: user.email,
-//     role: user.constructor.modelName,
-//     message: "Successfully logged in",
-//     success: true,
-//   });
-// }
-//   } catch (error) {
-// console.error(error);
-// return res.status(500).json({ message: "Internal server error" });
-//   }
-// });
-
 //?
 const authUser = asyncHandler(async (req, res) => {
   try {

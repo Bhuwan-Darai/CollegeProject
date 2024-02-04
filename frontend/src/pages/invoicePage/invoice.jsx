@@ -1,7 +1,14 @@
 import { useEffect, useState, useRef, forwardRef } from "react";
 import Header from "../../components/header/header";
 import InvoiceTable from "../../components/invoice/InvoiceTable";
-import { Container, Col, Row, Form, FormControl } from "react-bootstrap";
+import {
+  Container,
+  Col,
+  Row,
+  Form,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 
@@ -9,7 +16,7 @@ import { useReactToPrint } from "react-to-print";
 const InvoiceContent = forwardRef(({ invoice, getMonthName }, ref) => (
   <div>
     <div ref={ref}>
-      <div>
+      <div style={{ marginTop: "10px" }}>
         <div style={{ textAlign: "center", backgroundColor: "pink" }}>
           <h3>AADIKAVI BHANUBHAKTA CAMPUS</h3>
         </div>
@@ -18,6 +25,7 @@ const InvoiceContent = forwardRef(({ invoice, getMonthName }, ref) => (
             border: "2px solid blue",
             borderRadius: "15px",
             backgroundColor: "white",
+            paddingLeft: "10px",
           }}
         >
           <Row>
@@ -86,7 +94,11 @@ const Invoice = () => {
       <Header />
       <Container
         fluid
-        style={{ border: "1px solid black", backgroundColor: "pink" }}
+        style={{
+          border: "1px solid black",
+          backgroundColor: "pink",
+          marginTop: "9px",
+        }}
       >
         <Row>
           <Col md={6}>
@@ -96,7 +108,7 @@ const Invoice = () => {
                 as="select"
                 value={semester}
                 onChange={handleChange}
-                style={{ marginLeft: "5px" }}
+                style={{ marginLeft: "5px", marginTop: "10px" }}
               >
                 <option value="defaultSemester">Select Semester</option>
                 {[...Array(9)].map((_, i) => (
@@ -117,8 +129,14 @@ const Invoice = () => {
           />
         )}
 
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <button onClick={handlePrint}>Generate PDF</button>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <Button onClick={handlePrint}>Generate PDF</Button>
         </div>
       </Container>
     </>

@@ -134,7 +134,7 @@ const Header = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
-            <Nav style={{ marginLeft: "80%" }}>
+            <Nav style={{ marginLeft: "90%" }}>
               <NavDropdown
                 show={showDropdown}
                 onToggle={toggleDropdown}

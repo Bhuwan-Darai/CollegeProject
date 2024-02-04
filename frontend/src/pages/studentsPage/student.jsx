@@ -1,6 +1,14 @@
 import "./student.css";
 import { useEffect, useState } from "react";
-import { Button, Table, Form, Modal, FormControl } from "react-bootstrap";
+import {
+  Button,
+  Table,
+  Form,
+  Modal,
+  FormControl,
+  Row,
+  Col,
+} from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 // import admin from "../assets/admin.png";
@@ -191,75 +199,93 @@ function Student() {
             </Table>
           </div>
         )}
+
         <Modal style={{ marginLeft: "50px" }} show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Update Student</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group>
-                <Form.Control
-                  name="roll"
-                  placeholder="Roll number"
-                  type="number"
-                  value={updatedStudent.roll ? updatedStudent.roll : ""}
-                  onChange={handleChange}
-                />
+              <Row>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label>Semester</Form.Label>
+                    <Form.Control
+                      name="semester"
+                      type="text"
+                      placeholder="semester"
+                      value={
+                        updatedStudent.semester ? updatedStudent.semester : ""
+                      }
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
 
-                <Form.Control
-                  name="semester"
-                  placeholder="semester"
-                  type="text"
-                  value={updatedStudent.semester ? updatedStudent.semester : ""}
-                  onChange={handleChange}
-                />
+                  <Form.Group>
+                    <Form.Label>Name of Student</Form.Label>
+                    <Form.Control
+                      name="name"
+                      type="text"
+                      placeholder="Name of Student"
+                      value={updatedStudent.name ? updatedStudent.name : ""}
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
 
-                <Form.Control
-                  name="name"
-                  placeholder="Name of Student"
-                  type="text"
-                  value={updatedStudent.name ? updatedStudent.name : ""}
-                  onChange={handleChange}
-                />
+                  <Form.Group>
+                    <Form.Label>Guardian Name</Form.Label>
+                    <Form.Control
+                      name="guardianName"
+                      placeholder="Guardian Name"
+                      value={
+                        updatedStudent.guardianName
+                          ? updatedStudent.guardianName
+                          : ""
+                      }
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      value={updatedStudent.email ? updatedStudent.email : ""}
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
 
-                <Form.Control
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                  value={updatedStudent.email ? updatedStudent.email : ""}
-                  onChange={handleChange}
-                />
+                  <Form.Group>
+                    <Form.Label>Contact</Form.Label>
+                    <Form.Control
+                      name="contact"
+                      type="number"
+                      placeholder="Contact"
+                      value={
+                        updatedStudent.contact ? updatedStudent.contact : ""
+                      }
+                      onChange={handleChange}
+                    />
+                  </Form.Group>
 
-                <Form.Control
-                  name="guardianName"
-                  placeholder="Guardian Name"
-                  value={
-                    updatedStudent.guardianName
-                      ? updatedStudent.guardianName
-                      : ""
-                  }
-                  onChange={handleChange}
-                />
-
-                <Form.Control
-                  name="contact"
-                  placeholder="Contact"
-                  type="number"
-                  value={updatedStudent.contact ? updatedStudent.contact : ""}
-                  onChange={handleChange}
-                />
-
-                <Form.Control
-                  as="select"
-                  name="gender"
-                  value={updatedStudent.gender ? updatedStudent.gender : ""}
-                  onChange={handleChange}
-                >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </Form.Control>
-              </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="gender"
+                      value={updatedStudent.gender ? updatedStudent.gender : ""}
+                      onChange={handleChange}
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
             </Form>
           </Modal.Body>
           <Modal.Footer>

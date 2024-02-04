@@ -65,7 +65,7 @@ const Dashboard = () => {
                 style={{
                   backgroundColor: "green",
                   color: "white",
-                  fontSize: "20px",
+                  fontSize: "15px",
                   padding: "30px 30px",
                   marginRight: "30px",
                   borderRadius: "5px",
@@ -83,7 +83,7 @@ const Dashboard = () => {
                 style={{
                   backgroundColor: "blue",
                   color: "white",
-                  fontSize: "20px",
+                  fontSize: "15px",
                   padding: "30px 30px",
                   marginRight: "30px",
                   borderRadius: "5px",
@@ -101,14 +101,16 @@ const Dashboard = () => {
                 style={{
                   backgroundColor: "gray",
                   color: "white",
-                  fontSize: "20px",
+                  fontSize: "15px",
                   padding: "30px 30px",
                   marginRight: "30px",
                   borderRadius: "5px",
                   borderStyle: "none",
                   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
                 }}
-                // onClick={handleCalenderClick}
+                onClick={() => {
+                  window.open("https://www.hamropatro.com/", "_blank");
+                }}
               >
                 <IoCalendarNumber style={{ marginRight: "5px" }} />
                 Calender

@@ -43,6 +43,7 @@ function CreateStudent() {
 
       // Success alert
       swal("Success", "Student created successfully", "success");
+      window.location.reload();
     } catch (error) {
       if (error.response) {
         const errMessage = JSON.stringify(error.response.data);
