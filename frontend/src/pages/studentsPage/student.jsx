@@ -284,6 +284,18 @@ function Student() {
                       <option value="Female">Female</option>
                     </Form.Control>
                   </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Status</Form.Label>
+                    <Form.Control
+                      as="select"
+                      name="status"
+                      value={updatedStudent.status ? updatedStudent.status : ""}
+                      onChange={handleChange}
+                    >
+                      <option value="unpaid">Unpaid</option>
+                      <option value="paid">Paid</option>
+                    </Form.Control>
+                  </Form.Group>
                 </Col>
               </Row>
             </Form>

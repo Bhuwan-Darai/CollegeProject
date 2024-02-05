@@ -182,8 +182,21 @@ const updateStudent = asyncHandler(async (req, res) => {
         contact: req.body.contact,
         password: req.body.password,
         gender: req.body.gender,
+        status: req.body.paymentStatus === "paid" ? "paid" : "unpaid", // Set student status based on payment status
       },
     );
+
+    // Set payment status based on the provided status value from frontend
+    const paymentUpdate = await payment.findOneAndUpdate(
+      {
+        _id: req.body._id, // Assuming id is a unique identifier for payments
+      },
+      {
+        verified: req.body.paymentStatus, // Set payment status based on the provided status value from frontend
+      },
+    );
+
+    console.log(studentUpdate, paymentUpdate);
     console.log(update);
     return res.status(200).json({ message: "Student updated" });
   } catch (error) {
