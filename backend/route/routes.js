@@ -18,14 +18,13 @@ const {
   getPayment,
   getByPaymentId,
   getInvoice,
-  getNotification,
-  readNotification,
   createSemesterFee,
   feeStructure,
   updateFeeStructure,
   deleteFeeStructure,
   sendMail,
   verifyPayment,
+  sendMailVerification,
 } = require("../controller/controller");
 const uploadMidlleware = require("../middleware/uploadMiddleware");
 
@@ -64,4 +63,6 @@ router.post("/fees", feeStructure);
 router.put("/updateFeeStructure/:id", updateFeeStructure);
 router.delete("/deleteFeeStructure/:id", deleteFeeStructure);
 router.post("/sendMail", sendMail);
+
+router.post("/sendMailVerification", sendMailVerification);
 module.exports = router;

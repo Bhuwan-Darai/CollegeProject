@@ -7,6 +7,8 @@ import {
   Form,
   FormControl,
   Modal,
+  Row,
+  Col,
 } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -264,95 +266,141 @@ const TableComponent = () => {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              <Form.Group>
-                <Form.Control
-                  name="_id"
-                  type="hidden"
-                  value={updatedFeeStr._id}
-                  readOnly
-                />
-                <Form.Control
-                  name="semester"
-                  placeholder="Semester"
-                  type="text"
-                  value={updatedFeeStr.semester ? updatedFeeStr.semester : ""}
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="admissionFee"
-                  placeholder="Admission Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.admissionFee ? updatedFeeStr.admissionFee : ""
-                  }
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="tutionFee"
-                  placeholder="Tution Fee"
-                  type="text"
-                  value={updatedFeeStr.tutionFee ? updatedFeeStr.tutionFee : ""}
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="libraryFee"
-                  placeholder="Library Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.libraryFee ? updatedFeeStr.libraryFee : ""
-                  }
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="internalExamFee"
-                  placeholder="Internal Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.internalExamFee
-                      ? updatedFeeStr.internalExamFee
-                      : ""
-                  }
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="boardExamFee"
-                  placeholder="Board Exam Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.boardExamFee ? updatedFeeStr.boardExamFee : ""
-                  }
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="infrastructureDevelopmentFee"
-                  placeholder="Infrastructure Development Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.infrastructureDevelopmentFee
-                      ? updatedFeeStr.infrastructureDevelopmentFee
-                      : ""
-                  }
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="labFee"
-                  placeholder="Lab Fee"
-                  type="text"
-                  value={updatedFeeStr.labFee ? updatedFeeStr.labFee : ""}
-                  onChange={handleUpdate}
-                />
-                <Form.Control
-                  name="identityCardFee"
-                  placeholder="Identity Card Fee"
-                  type="text"
-                  value={
-                    updatedFeeStr.identityCardFee
-                      ? updatedFeeStr.identityCardFee
-                      : ""
-                  }
-                  onChange={handleUpdate}
-                />
-              </Form.Group>
+              <Row>
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Control
+                      name="_id"
+                      type="hidden"
+                      value={updatedFeeStr._id}
+                      readOnly
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Semester</Form.Label>
+                    <Form.Control
+                      name="semester"
+                      placeholder="Semester"
+                      type="text"
+                      value={
+                        updatedFeeStr.semester ? updatedFeeStr.semester : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Admission Fee</Form.Label>
+                    <Form.Control
+                      name="admissionFee"
+                      placeholder="Admission Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.admissionFee
+                          ? updatedFeeStr.admissionFee
+                          : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Tuition Fee</Form.Label>
+                    <Form.Control
+                      name="tutionFee"
+                      placeholder="Tuition Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.tutionFee ? updatedFeeStr.tutionFee : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Library Fee</Form.Label>
+                    <Form.Control
+                      name="libraryFee"
+                      placeholder="Library Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.libraryFee ? updatedFeeStr.libraryFee : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                </Col>
+
+                <Col md={6}>
+                  <Form.Group>
+                    <Form.Label>Internal Exam Fee</Form.Label>
+                    <Form.Control
+                      name="internalExamFee"
+                      placeholder="Internal Exam Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.internalExamFee
+                          ? updatedFeeStr.internalExamFee
+                          : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Board Exam Fee</Form.Label>
+                    <Form.Control
+                      name="boardExamFee"
+                      placeholder="Board Exam Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.boardExamFee
+                          ? updatedFeeStr.boardExamFee
+                          : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Infrastructure Devlopment Fee</Form.Label>
+                    <Form.Control
+                      name="infrastructureDevelopmentFee"
+                      placeholder="Infrastructure Development Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.infrastructureDevelopmentFee
+                          ? updatedFeeStr.infrastructureDevelopmentFee
+                          : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Lab Fee</Form.Label>
+                    <Form.Control
+                      name="labFee"
+                      placeholder="Lab Fee"
+                      type="text"
+                      value={updatedFeeStr.labFee ? updatedFeeStr.labFee : ""}
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                  <Form.Group>
+                    <Form.Label>Identity Card Fee</Form.Label>
+                    <Form.Control
+                      name="identityCardFee"
+                      placeholder="Identity Card Fee"
+                      type="text"
+                      value={
+                        updatedFeeStr.identityCardFee
+                          ? updatedFeeStr.identityCardFee
+                          : ""
+                      }
+                      onChange={handleUpdate}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
             </Form>
           </Modal.Body>
           <Modal.Footer>

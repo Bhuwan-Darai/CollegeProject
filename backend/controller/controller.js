@@ -779,6 +779,62 @@ const sendMail = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Send Mail Verification
+// @route   POST /api/sendMailVerification
+// @access  Private
+const sendMailVerification = asyncHandler(async (req, res) => {
+  try {
+    const { userEmail, userName } = req.body;
+
+    let config = {
+      service: "gmail",
+      auth: {
+        user: EMAIL, // School email id
+        pass: PASSWORD, // school email password
+      },
+    };
+
+    let transporter = await nodemailer.createTransport(config);
+
+    let mailGenerator = await new Mailgen({
+      theme: "default",
+      product: {
+        name: "Aaadikavi Bhanubhakta Campus",
+        link: "https://aadikavicampus.edu.np",
+      },
+    });
+
+    let emailContent = {
+      body: {
+        name: userName, // User's name
+        intro: `We're happy to confirm that your payment has been successfully verified. Thank you for your prompt transaction.`,
+      },
+    };
+
+    let emailBody = await mailGenerator.generate(emailContent);
+
+    let message = {
+      from: EMAIL,
+      to: userEmail,
+      subject: "Payment verification complete",
+      html: emailBody,
+    };
+
+    transporter
+      .sendMail(message)
+      .then(() => {
+        res.status(200).json({
+          message: "Email sent successfully",
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Error sending email", error: error });
+      });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending email", error: error });
+  }
+});
+
 module.exports = {
   authUser,
   logoutUser,
@@ -802,4 +858,5 @@ module.exports = {
   updateFeeStructure,
   deleteFeeStructure,
   sendMail,
+  sendMailVerification,
 };
