@@ -73,7 +73,7 @@ function StatementDetails() {
       <Header />
       <div>
         <Container className="d-flex justify-content-center align-items-center vh-100">
-          <Card style={{ width: "40rem" }}>
+          <Card style={{ width: "70vw", height: "70vh" }}>
             <Card.Header style={{ backgroundColor: "#224952", color: "white" }}>
               Payment Details
             </Card.Header>
@@ -109,7 +109,7 @@ function StatementDetails() {
                     <Image
                       src={slipUrl}
                       alt="payment slip photo"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", height: "100%" }}
                       onError={(e) =>
                         console.log("Error while loading the photo", e)
                       }
