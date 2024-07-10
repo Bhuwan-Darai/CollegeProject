@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://collegeproject-wgmy.onrender.com/",
+        target: "https://collegeproject-wgmy.onrender.com",
         changeOrigin: true,
       },
     },
