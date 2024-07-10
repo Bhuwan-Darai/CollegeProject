@@ -183,7 +183,7 @@ const updateStudent = asyncHandler(async (req, res) => {
         password: req.body.password,
         gender: req.body.gender,
         status: req.body.paymentStatus === "paid" ? "paid" : "unpaid", // Set student status based on payment status
-      },
+      }
     );
 
     // Set payment status based on the provided status value from frontend
@@ -193,7 +193,7 @@ const updateStudent = asyncHandler(async (req, res) => {
       },
       {
         verified: req.body.paymentStatus, // Set payment status based on the provided status value from frontend
-      },
+      }
     );
 
     console.log(studentUpdate, paymentUpdate);
@@ -235,6 +235,7 @@ const deleteStudent = asyncHandler(async (req, res) => {
 const registerAccountant = asyncHandler(async (req, res) => {
   try {
     const { name, email, contact, password } = req.body;
+    console.log("accountant details", req.body);
 
     // Check either student exists or not
     const existingAccountant = await Accountant.findOne({ email });
@@ -245,12 +246,9 @@ const registerAccountant = asyncHandler(async (req, res) => {
     // if not create Accountant
     const createAccountant = await Accountant.create({
       name,
-      semester,
       email,
-      guardianName,
       contact,
       password,
-      gender,
     });
 
     if (createAccountant) {
@@ -296,7 +294,7 @@ const updateAccountant = asyncHandler(async (req, res) => {
         email: req.body.email,
         password: req.body.password,
         contact: req.body.contact,
-      },
+      }
     );
     console.log(update);
     return res.status(200).json({ message: "Accountant updated" });
@@ -696,7 +694,7 @@ const updateFeeStructure = asyncHandler(async (req, res) => {
         identityCardFee,
         totalFee,
       },
-      { new: true }, // Return the updated docment
+      { new: true } // Return the updated docment
     );
 
     if (!update) {

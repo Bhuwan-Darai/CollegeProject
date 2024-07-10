@@ -17,7 +17,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:5173",
-  }),
+  })
 );
 app.use(express.json());
 app.use(cookieParser()); //! remeber the order in vite for cookie else it will not save in browser

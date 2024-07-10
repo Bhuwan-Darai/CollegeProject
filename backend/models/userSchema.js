@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const { v4: uuidv4 } = require("uuid");
+const { uuidv4 } = require("uuid");
 
 // User Schema
 const userSchema = mongoose.Schema(
@@ -65,7 +65,7 @@ const userSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // Match user entered password to hashed password in the database
