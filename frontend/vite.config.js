@@ -8,7 +8,6 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://collegeproject-wgmy.onrender.com/",
-
         changeOrigin: true,
       },
     },

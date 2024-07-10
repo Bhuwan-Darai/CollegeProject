@@ -18,7 +18,7 @@ app.use(
     credentials: true,
     origin: [
       "http://localhost:5173",
-      "https://college-project-flame.vercel.app/",
+      "https://college-project-hwyonaj90-bhuwandarais-projects.vercel.app/",
     ],
   })
 );
