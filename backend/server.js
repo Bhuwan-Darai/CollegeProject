@@ -16,7 +16,10 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://college-project-flame.vercel.app/",
+    ],
   })
 );
 app.use(express.json());
@@ -36,4 +39,4 @@ app.use(errorHandler);
 app.use("/uploads", express.static("uploads"));
 
 //? Start the server
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port || 5000, () => console.log(`Server started on port ${port}`));
