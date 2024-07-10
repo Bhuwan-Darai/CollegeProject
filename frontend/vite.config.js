@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://mern-task-api-p68z.onrender.com",
+        target: "https://collegeproject-wgmy.onrender.com/",
 
         changeOrigin: true,
       },
