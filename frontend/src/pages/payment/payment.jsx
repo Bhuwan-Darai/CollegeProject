@@ -1,10 +1,19 @@
-import { Form, Row, FormGroup, Button, Container, Col } from "react-bootstrap";
+import {
+  Form,
+  Row,
+  FormGroup,
+  Button,
+  Container,
+  Col,
+  Alert,
+} from "react-bootstrap";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Header from "../../components/header/header";
 import QR from "../../assets/QR.jpeg";
+
 const PaymentForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,6 +29,7 @@ const PaymentForm = () => {
     guardianContact: "",
   });
 
+  const [errors, setErrors] = useState({});
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleChange = (e) => {
@@ -39,43 +49,57 @@ const PaymentForm = () => {
     setPreviewImage(URL.createObjectURL(image));
   };
 
+  const validate = () => {
+    const newErrors = {};
+    const requiredFields = [
+      "name",
+      "address",
+      "program",
+      "batch",
+      "semester",
+      "parentsName",
+      "email",
+      "amount",
+      "paymentDate",
+      "guardianContact",
+    ];
+
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newErrors[field] = "This field is required";
+      }
+    });
+
+    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get userId from localStorage
-
-    const {
-      name,
-      address,
-      program,
-      batch,
-      semester,
-      parentsName,
-      email,
-      amount,
-      paymentDate,
-      photo,
-      guardianContact,
-    } = formData;
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      Swal.fire({
+        icon: "error",
+        title: "Form Validation Error",
+        text: "Please fill in all required fields",
+      });
+      return;
+    }
 
     const formDataToUpload = new FormData();
-    formDataToUpload.append("name", name);
-    formDataToUpload.append("address", address);
-    formDataToUpload.append("program", program);
-    formDataToUpload.append("batch", batch);
-    formDataToUpload.append("semester", semester);
-    formDataToUpload.append("parentsName", parentsName);
-    formDataToUpload.append("email", email);
-    formDataToUpload.append("amount", amount);
-    formDataToUpload.append("paymentDate", paymentDate);
-    formDataToUpload.append("photo", photo);
-    formDataToUpload.append("guardianContact", guardianContact);
+    Object.keys(formData).forEach((key) => {
+      formDataToUpload.append(key, formData[key]);
+    });
 
     try {
       const response = await axios.post(`/processPayment`, formDataToUpload);
       console.log("Upload response", response.data);
 
-      // show sweet alert on successful upload
       Swal.fire({
         icon: "success",
         title: "Entry created successfully",
@@ -83,7 +107,6 @@ const PaymentForm = () => {
         confirmButtonText: "Ok",
       });
 
-      // Clear form fields after successful upload
       setFormData({
         name: "",
         address: "",
@@ -98,18 +121,35 @@ const PaymentForm = () => {
         guardianContact: "",
       });
       setPreviewImage(null);
+      setErrors({});
     } catch (error) {
       console.error("entry creation error", error);
       Swal.fire({
         icon: "error",
         title: "Payment Unsuccessful",
-        text: "There was an  while payment",
+        text: "There was an error while processing the payment",
       });
     }
   };
 
+  const isFormValid = () => {
+    const requiredFields = [
+      "name",
+      "address",
+      "program",
+      "batch",
+      "semester",
+      "parentsName",
+      "email",
+      "amount",
+      "paymentDate",
+      "guardianContact",
+    ];
+    return requiredFields.every((field) => formData[field]);
+  };
+
   return (
-    <Container className="  ">
+    <Container className="payment-form">
       <Header />
       <div className="container">
         <div className="row">
@@ -128,18 +168,28 @@ const PaymentForm = () => {
                   <Form.Control
                     type="text"
                     name="name"
+                    placeholder="name"
                     value={formData.name}
                     onChange={handleChange}
+                    isInvalid={!!errors.name}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </FormGroup>
                 <FormGroup as={Col} md="6">
                   <Form.Label>Address</Form.Label>
                   <Form.Control
                     type="text"
                     name="address"
+                    placeholder="address"
                     value={formData.address}
                     onChange={handleChange}
+                    isInvalid={!!errors.address}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.address}
+                  </Form.Control.Feedback>
                 </FormGroup>
               </Row>
               <Row>
@@ -148,18 +198,28 @@ const PaymentForm = () => {
                   <Form.Control
                     type="text"
                     name="program"
+                    placeholder="program"
                     value={formData.program}
                     onChange={handleChange}
+                    isInvalid={!!errors.program}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.program}
+                  </Form.Control.Feedback>
                 </FormGroup>
                 <FormGroup as={Col} md="6">
                   <Form.Label>Batch No.</Form.Label>
                   <Form.Control
                     type="text"
                     name="batch"
+                    placeholder="batch"
                     value={formData.batch}
                     onChange={handleChange}
+                    isInvalid={!!errors.batch}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.batch}
+                  </Form.Control.Feedback>
                 </FormGroup>
               </Row>
               <Row>
@@ -168,22 +228,32 @@ const PaymentForm = () => {
                   <Form.Control
                     type="text"
                     name="semester"
+                    placeholder="semester"
                     value={formData.semester}
                     onChange={handleChange}
+                    isInvalid={!!errors.semester}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.semester}
+                  </Form.Control.Feedback>
                 </FormGroup>
                 <FormGroup as={Col} md="6">
                   <Form.Label>Parent Name</Form.Label>
                   <Form.Control
                     type="text"
                     name="parentsName"
+                    placeholder="parent name"
                     value={formData.parentsName}
                     onChange={handleChange}
+                    isInvalid={!!errors.parentsName}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.parentsName}
+                  </Form.Control.Feedback>
                 </FormGroup>
               </Row>
 
-              <FormGroup as={Col} md="6">
+              <FormGroup>
                 <Form.Label>Photo</Form.Label>
                 <Dropzone onDrop={handleDrop}>
                   {({ getRootProps, getInputProps }) => (
@@ -210,18 +280,28 @@ const PaymentForm = () => {
                   <Form.Control
                     type="email"
                     name="email"
+                    placeholder="email"
                     value={formData.email}
                     onChange={handleChange}
+                    isInvalid={!!errors.email}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </FormGroup>
                 <FormGroup as={Col} md="6">
                   <Form.Label>Guardian Contact</Form.Label>
                   <Form.Control
                     type="number"
                     name="guardianContact"
+                    placeholder="contact"
                     value={formData.guardianContact}
                     onChange={handleChange}
+                    isInvalid={!!errors.guardianContact}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.guardianContact}
+                  </Form.Control.Feedback>
                 </FormGroup>
               </Row>
               <Row>
@@ -230,36 +310,42 @@ const PaymentForm = () => {
                   <Form.Control
                     type="number"
                     name="amount"
+                    placeholder="amount"
                     value={formData.amount}
                     onChange={handleChange}
+                    isInvalid={!!errors.amount}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.amount}
+                  </Form.Control.Feedback>
                 </FormGroup>
                 <FormGroup as={Col} md="6">
                   <Form.Label>Payment Date</Form.Label>
                   <Form.Control
                     type="date"
                     name="paymentDate"
+                    placeholder="date"
                     value={formData.paymentDate}
                     onChange={handleChange}
+                    isInvalid={!!errors.paymentDate}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.paymentDate}
+                  </Form.Control.Feedback>
                 </FormGroup>
               </Row>
 
-              <Button className="mt-3" type="submit">
+              <Button className="mt-3" type="submit" disabled={!isFormValid()}>
                 Submit
               </Button>
             </Form>
           </div>
           <div className="col-md-6">
             <center>
-              {" "}
               <h3 style={{ marginTop: "20px" }}>Scan Here</h3>
-            </center>
-            <center>
-              {" "}
               <img
                 src={QR}
-                alt=""
+                alt="QR Code"
                 style={{ height: "200px", width: "200px" }}
               />
             </center>
