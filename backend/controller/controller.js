@@ -329,6 +329,7 @@ const deleteAccountant = async (req, res) => {
 // @route   POST api/processPayment
 // @access  Private
 const processPayments = asyncHandler(async (req, res) => {
+  console.log("req", req);
   const {
     name,
     semester,
